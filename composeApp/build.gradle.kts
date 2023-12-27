@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+
+    alias(libs.plugins.mokoResources)
 }
 
 kotlin {
@@ -15,7 +17,7 @@ kotlin {
             }
         }
     }
-    
+    /*
     listOf(
         iosX64(),
         iosArm64(),
@@ -26,22 +28,34 @@ kotlin {
             isStatic = true
         }
     }
-    
+    */
     sourceSets {
+        androidMain.get().dependsOn(commonMain.get())
         
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+
+            implementation(libs.google.maps.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.components.resources)
+
+            implementation(libs.voyager.navigator)
+
+            api(libs.moko.resources)
+            api(libs.moko.resources.compose)
         }
     }
+
+    multiplatformResources    {
+        multiplatformResourcesPackage = "org.veronica.taxi_app.resources"
+        multiplatformResourcesClassName = "AppResources"
+    }
+
 }
 
 android {
