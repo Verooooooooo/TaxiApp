@@ -1,8 +1,10 @@
 package Pasajero.Screens
 
 import Composables.Map
+import Settings.Screens.Opciones
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -167,12 +169,26 @@ fun SimpleFilledTextFieldSample(texto: String, modifier: Modifier = Modifier, ic
 
 @Composable
 fun BarraDesafio() {
-
+    val navigator = LocalNavigator.currentOrThrow
     Box(
         Modifier.padding(vertical = 12.dp).fillMaxWidth(),
         contentAlignment = (Alignment.CenterStart)
     )
     {
+
+        Box(
+            modifier = Modifier.padding(top = 45.dp).clickable { navigator.push(Opciones())} // Ajusta el espaciado del icono según tus necesidades
+        ) {
+
+                // Agrega tu icono aquí
+                Image(
+                    painter = painterResource(AppResources.images.iconHamburguer),
+                    contentDescription = null,
+                    modifier = Modifier.width(16.dp),
+                )
+
+
+        }
         Box(
             Modifier.width(5.dp).height(20.dp).offset(x = 250.dp).background(color = Barrita)
         )

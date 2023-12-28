@@ -1,6 +1,7 @@
 package Pasajero.Screens
 
 import Composables.Map
+import Conductor.Screens.ListaPasajeros
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -101,7 +102,7 @@ fun ConductorEncontradoContent() {
             }
 
             Button(
-                onClick = { navigator.push(ConductorEncontrado()) },
+                onClick = { navigator.push(ListaPasajeros()) },
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorBuscar),
                 modifier = Modifier.fillMaxWidth()
             ) {
