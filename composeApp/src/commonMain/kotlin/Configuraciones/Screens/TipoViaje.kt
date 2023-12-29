@@ -60,9 +60,15 @@ fun TipoViajeContent(){
                 Box(Modifier.weight(1f)) {
                     Checkbox(
                         checked = isProvincialChecked.value,
-                        onCheckedChange = { isProvincialChecked.value = it },
-                        modifier = Modifier
-                            .fillMaxSize(),
+                        onCheckedChange = {
+                            isProvincialChecked.value = it
+                            isUrbanoChecked.value = !it // Desactiva el otro checkbox
+                        },
+                        modifier = Modifier.fillMaxSize(),
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = Color.Yellow, // Cambia el color cuando está marcado
+                            uncheckedColor = Color.Yellow.copy(alpha = 0.5f) // Cambia el color cuando no está marcado
+                        )
                     )
                     Text(
                         "Provincial",
@@ -78,9 +84,15 @@ fun TipoViajeContent(){
                 Box(Modifier.weight(1f)) {
                     Checkbox(
                         checked = isUrbanoChecked.value,
-                        onCheckedChange = { isUrbanoChecked.value = it },
-                        modifier = Modifier
-                            .fillMaxSize(),
+                        onCheckedChange = {
+                            isUrbanoChecked.value = it
+                            isProvincialChecked.value = !it // Desactiva el otro checkbox
+                        },
+                        modifier = Modifier.fillMaxSize(),
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = Color.Yellow, // Cambia el color cuando está marcado
+                            uncheckedColor = Color.Yellow.copy(alpha = 0.5f) // Cambia el color cuando no está marcado
+                        )
                     )
                     Text(
                         "Urbano",

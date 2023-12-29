@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
@@ -64,9 +66,15 @@ fun IdiomaContent() {
                 Box(Modifier.weight(1f)) {
                     Checkbox(
                         checked = isEspañolChecked.value,
-                        onCheckedChange = { isEspañolChecked.value = it },
-                        modifier = Modifier
-                            .fillMaxSize(),
+                        onCheckedChange = {
+                            isEspañolChecked.value = it
+                            isInglesChecked.value = !it // Desactiva el otro checkbox
+                        },
+                        modifier = Modifier.fillMaxSize(),
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = Color.Yellow, // Cambia el color cuando está marcado
+                            uncheckedColor = Color.Yellow.copy(alpha = 0.5f) // Cambia el color cuando no está marcado
+                        )
                     )
                     Text(
                         "Español",
@@ -82,10 +90,16 @@ fun IdiomaContent() {
                 Box(Modifier.weight(1f)) {
                     Checkbox(
                         checked = isInglesChecked.value,
-                        onCheckedChange = { isInglesChecked.value = it },
-                        modifier = Modifier
-                            .fillMaxSize(),
-                    )
+                        onCheckedChange = {
+                            isInglesChecked.value = it
+                            isEspañolChecked.value = !it // Desactiva el otro checkbox
+                            },
+                            modifier = Modifier.fillMaxSize(),
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = Color.Yellow, // Cambia el color cuando está marcado
+                            uncheckedColor = Color.Yellow.copy(alpha = 0.5f) // Cambia el color cuando no está marcado
+                        )
+                        )
                     Text(
                         "Inglés",
                         fontSize = TextUnit(7.0f, TextUnitType.Em),

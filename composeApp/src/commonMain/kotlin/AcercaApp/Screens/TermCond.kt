@@ -1,50 +1,36 @@
-package Settings.Screens
+package AcercaApp.Screens
 
-import Conductor.Screens.ListaPasajeros
-import Configuraciones.Screens.Idioma
-import Configuraciones.Screens.ModOscuro
-import Configuraciones.Screens.Numero
-import Configuraciones.Screens.SobreApp
-import Configuraciones.Screens.Tiempo
-import Configuraciones.Screens.TipoViaje
-import Pasajero.Screens.BuscarViaje
-import Pasajero.Screens.backgroundColorEmpezar
-import androidx.compose.foundation.Image
+import Configuraciones.Screens.LetrasBlancas
+import Configuraciones.Screens.Regresar
+import Configuraciones.Screens.backgroundColor
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.icerock.moko.resources.compose.painterResource
-import org.veronica.taxi_app.resources.AppResources
-var LetrasBlancas = Color(0xFFFFFFFF)
-class Configuraciones : Screen {
+
+class TermCond : Screen {
     @Composable
     override fun Content() {
-        ConfiguracionesContent()
+        TermCondContent()
     }
 }
+
 @Composable
-fun ConfiguracionesContent(){
+fun TermCondContent() {
     val navigator = LocalNavigator.currentOrThrow
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
         Column(
@@ -52,55 +38,78 @@ fun ConfiguracionesContent(){
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Sandwich("CONFIGURACIONES")
+            Volver("TÉRMINOS Y CONDICIONES")
             Button(
-                onClick = { navigator.push(Numero())},
+                onClick = {},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
+                Text(
+                    "Términos de Uso",
+                    fontSize = TextUnit(7.0f, TextUnitType.Em),
+                    color = LetrasBlancas
+                )
 
-                Text("Cambiar de número", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
-
-            }
-            Button(
-                onClick = { navigator.push(ModOscuro())},
-                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
-            ) {
-
-                Text("Modo oscuro", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
-
-            }
-            Button(
-                onClick = { navigator.push(Idioma())},
-                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
-            ) {
-                Text("Idioma", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
-
-            }
-            Button(
-                onClick = { navigator.push(Tiempo())},
-                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
-            ) {
-                Text("Tiempo de espera máx.", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
-
-            }
-            Button(
-                onClick = { navigator.push(TipoViaje())},
-                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
-            ) {
-                Text("Tipo de viaje", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
-
-            }
-            Button(
-                onClick = { navigator.push(SobreApp())},
-                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
-            ) {
-                Text("Acerca de la app", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
             }
             Button(
                 onClick = {},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Cerrar sesión", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text(
+                    "VicoCar.Servicios Términos de Uso",
+                    fontSize = TextUnit(7.0f, TextUnitType.Em),
+                    color = LetrasBlancas
+                )
+
+            }
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
+            ) {
+                Text(
+                    "Reglas de servicio para los usuarios del servicio VicoCar.Servicios",
+                    fontSize = TextUnit(7.0f, TextUnitType.Em),
+                    color = LetrasBlancas
+                )
+
+            }
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
+            ) {
+                Text("VicoCar.Flete Términos de Uso", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+
+            }
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
+            ) {
+                Text(
+                    "Condiciones de Uso de VicoCar.Ciudad a Ciudad",
+                    fontSize = TextUnit(7.0f, TextUnitType.Em),
+                    color = LetrasBlancas
+                )
+
+            }
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
+            ) {
+                Text(
+                    "Condiciones de Uso de VicoCar.Ciudad a Ciudad",
+                    fontSize = TextUnit(7.0f, TextUnitType.Em),
+                    color = LetrasBlancas
+                )
+
+            }
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
+            ) {
+                Text(
+                    "Términos de uso VicoCar.Freight",
+                    fontSize = TextUnit(7.0f, TextUnitType.Em),
+                    color = LetrasBlancas
+                )
 
             }
 
