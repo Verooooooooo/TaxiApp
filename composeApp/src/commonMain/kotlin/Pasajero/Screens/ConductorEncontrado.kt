@@ -2,10 +2,13 @@ package Pasajero.Screens
 
 import Composables.Map
 import Conductor.Screens.ListaPasajeros
+import Settings.Screens.Opciones
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -44,14 +47,37 @@ class ConductorEncontrado : Screen {
 fun ConductorEncontradoContent() {
     val navigator = LocalNavigator.currentOrThrow
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f)) {
+                Map(Modifier.fillMaxWidth())
+
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 8.dp)){
+                    Box(
+                        modifier = Modifier
+                            .clickable { navigator.push(Opciones()) } // Ajusta el espaciado del icono según tus necesidades
+                    ) {
+
+                        // Agrega tu icono aquí
+                        Image(
+                            painter = painterResource(AppResources.images.iconHamburguer),
+                            contentDescription = null,
+                            modifier = Modifier.width(16.dp),
+                        )
+
+
+                    }
+                    BarraDesafio()
+                }
+
+            }
         Column(
-            Modifier.fillMaxWidth().padding(horizontal = 25.dp),
+            Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
 
-            BarraDesafio()
-            Map(Modifier.height(300.dp).fillMaxWidth())
+
 
 
             Row(
@@ -60,16 +86,20 @@ fun ConductorEncontradoContent() {
                     .padding(end = 16.dp) // Ajusta el espaciado a la derecha según sea necesario
                 , verticalAlignment = Alignment.Top
             ) {
-                Image(
-                    painter = painterResource(AppResources.images.carrito),
-                    modifier = Modifier.height(200.dp).weight(1.5f),
-                    contentDescription = null
-                )
+                Box(modifier = Modifier.weight(1.5f))
+                {
+                    Image(
+                        painter = painterResource(AppResources.images.carrito),
+                        modifier = Modifier.height(IntrinsicSize.Min),
+                        contentDescription = null
+                    )
+                }
                 Box(Modifier.weight(1.5f)) {
                     SimpleFilledTextFieldSample(
                         "Tiempo",
                         modifier = Modifier.fillMaxWidth(),
-                        icon = reloj
+                        icon = reloj,
+                        enabled = false
                     )
                 }
 
@@ -77,37 +107,30 @@ fun ConductorEncontradoContent() {
 
 
             Row(
-                modifier = Modifier.fillMaxWidth().height(100.dp),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                Box(Modifier.weight(1f)) {
-                    SimpleFilledTextFieldSample(
-                        "Nombre conductor",
-                        modifier = Modifier.fillMaxSize(),
-                        icon = chofer
-                    )
-                }
-                Box(
-                    Modifier
-                        .weight(0.7f)
-                    //.width(500.dp)
-                ) {
-                    SimpleFilledTextFieldSample(
-                        "Precio",
-                        modifier = Modifier.fillMaxSize(),
-                        icon = precio
-                    )
-                }
-            }
 
-            Button(
-                onClick = { navigator.push(ListaPasajeros()) },
-                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorBuscar),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Aceptar Conductor", fontSize = TextUnit(8.5f, TextUnitType.Em))
+                SimpleFilledTextFieldSample(
+                    "Conductor",
+                    modifier = Modifier.fillMaxWidth().weight(1f),
+                    icon = chofer,
+                    enabled = false
+                )
+
+
+                SimpleFilledTextFieldSample(
+                    "Precio",
+                    modifier = Modifier.fillMaxWidth().weight(1f),
+                    icon = precio,
+                    enabled = false
+                )
+
             }
+        }
+
+
         }
     }
 }

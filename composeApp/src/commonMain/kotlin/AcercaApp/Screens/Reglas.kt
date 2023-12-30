@@ -28,9 +28,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -57,35 +59,35 @@ fun ReglasContent(){
                 onClick = {navigator.push(Normas())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Normas para pasajeros", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Normas para pasajeros",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = {navigator.push(VerificacionPack())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Verificación de paquetes", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Verificación de paquetes",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = {navigator.push(NoPermitido())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Cosas no admitidas por los repartidores", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Cosas no admitidas por los repartidores",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = {navigator.push(Flete())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Flete", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Flete",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = {navigator.push(BloqueoCuenta())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Bloqueo de cuenta", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Bloqueo de cuenta",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
 

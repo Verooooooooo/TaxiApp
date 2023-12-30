@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 
 class BloqueoCuenta : Screen {
@@ -53,7 +55,7 @@ fun BloqueoCuentaContent() {
                             "de bloqueo. El período de bloqueo puede variar desde una hora hasta varios " +
                             "días. En ciertas circunstancias, un perfil puede quedar bloqueado en forma " +
                             "permanente.",
-                    fontSize = TextUnit(20.0f, TextUnitType.Sp),
+                    style = TextStyle(fontSize = 16.sp),
                     color = Color.White,
                     textAlign = TextAlign.Justify
                 )

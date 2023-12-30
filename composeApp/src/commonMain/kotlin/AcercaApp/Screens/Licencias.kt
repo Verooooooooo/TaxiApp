@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 
 class Licencias : Screen {
@@ -312,7 +314,7 @@ fun LicenciasContent(){
                             "Contacte con nosotros en https://indrive.com/es/contacts/support/. Le responderemos de conformidad con la legislación aplicable y previa comprobación de su cuenta e identidad. \n" +
                             "\n" +
                             "SUOL INNOVATIONS LTD, 41 Themistokli Dervi, Hawaii Tower, 1st Floor, Office 106, 1066 Nicosia, Chipre.",
-                    fontSize = TextUnit(20.0f, TextUnitType.Sp),
+                    style = TextStyle(fontSize = 16.sp),
                     color = Color.White,
                     textAlign = TextAlign.Justify
                 )

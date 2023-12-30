@@ -19,9 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -50,35 +52,35 @@ fun SobreAppContent(){
                 onClick = {navigator.push(Reglas())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Reglas", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Reglas",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = {navigator.push(PoliticaPriv())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Política de privacidad", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Política de privacidad",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = {navigator.push(TermCond())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Términos y condiciones", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Términos y condiciones",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = {navigator.push(Licencias())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Licencias", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Licencias",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = {},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Versión", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Versión",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
 

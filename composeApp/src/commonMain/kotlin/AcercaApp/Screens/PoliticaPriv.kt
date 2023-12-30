@@ -17,7 +17,9 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 
 class PoliticaPriv : Screen {
     @Composable
@@ -315,7 +317,7 @@ fun PoliticaPrivContent() {
                             "Contacte con nosotros en https://indrive.com/es/contacts/support/. Le responderemos de conformidad con la legislación aplicable y previa comprobación de su cuenta e identidad. \n" +
                             "\n" +
                             "SUOL INNOVATIONS LTD, 41 Themistokli Dervi, Hawaii Tower, 1st Floor, Office 106, 1066 Nicosia, Chipre.",
-                    fontSize = TextUnit(20.0f, TextUnitType.Sp),
+                    style = TextStyle(fontSize = 16.sp),
                     color = Color.White,
                     textAlign = TextAlign.Justify
                 )

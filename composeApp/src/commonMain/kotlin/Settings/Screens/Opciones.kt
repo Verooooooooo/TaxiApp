@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -31,9 +32,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -62,7 +65,7 @@ fun OpcionesContent() {
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Button(
-                onClick = { navigator.push(BuscarViaje())},
+                onClick = {},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
                 Image(
@@ -70,7 +73,7 @@ fun OpcionesContent() {
                     modifier = Modifier.height(35.dp),
                     contentDescription = null
                 )
-                Text("Juan Perez", fontSize = TextUnit(7.0f, TextUnitType.Em))
+                Text("Juan Perez",  style = TextStyle(fontSize = 16.sp))
 
             }
             Button(
@@ -82,7 +85,7 @@ fun OpcionesContent() {
                     modifier = Modifier.height(35.dp),
                     contentDescription = ""
                 )
-                Text("Mi cuenta", fontSize = TextUnit(7.0f, TextUnitType.Em))
+                Text("Mi cuenta",  style = TextStyle(fontSize = 16.sp))
 
             }
             Button(
@@ -94,20 +97,20 @@ fun OpcionesContent() {
                     modifier = Modifier.height(35.dp),
                     contentDescription = ""
                 )
-                Text("Configuraciones", fontSize = TextUnit(7.0f, TextUnitType.Em))
+                Text("Configuraciones",  style = TextStyle(fontSize = 16.sp))
 
             }
             Button(
                 onClick = { navigator.push(BuscarViaje())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorEmpezar)
             ) {
-                Text("Modo pasajero", fontSize = TextUnit(7.0f, TextUnitType.Em))
+                Text("Modo pasajero",  style = TextStyle(fontSize = 16.sp))
             }
             Button(
                 onClick = { navigator.push(ListaPasajeros())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorEmpezar)
             ) {
-                Text("Modo conductor", fontSize = TextUnit(7.0f, TextUnitType.Em))
+                Text("Modo conductor",  style = TextStyle(fontSize = 16.sp))
 
             }
         }
@@ -120,7 +123,7 @@ fun SimpleFilledTextFieldSample(texto: String, modifier: Modifier = Modifier, ic
 
 
 //alt + enter = importa automaticamente
-    TextField(
+    OutlinedTextField(
         leadingIcon = {
             Icon(
                 painter = painterResource(icon),
@@ -135,16 +138,20 @@ fun SimpleFilledTextFieldSample(texto: String, modifier: Modifier = Modifier, ic
                 texto,
                 fontSize = TextUnit(7.0f, TextUnitType.Em),
                 color = LetraBlanca
+
             )
         },
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = LetraBlanca
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = LetraBlanca,
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Color.White,
+            disabledBorderColor = Color.Transparent
         ), modifier = modifier.fillMaxWidth()
     )
 }
 @Composable
 fun SimpleFilledTextFieldSample2(texto: String, modifier: Modifier = Modifier, image: ImageResource) {
-    TextField(
+    OutlinedTextField(
         leadingIcon = {
                 // Utiliza painterResource para cargar la imagen desde el recurso local
                 Image(
@@ -163,8 +170,11 @@ fun SimpleFilledTextFieldSample2(texto: String, modifier: Modifier = Modifier, i
                 color = LetraBlanca
             )
         },
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = LetraBlanca
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = LetraBlanca,
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Color.White,
+            disabledBorderColor = Color.Transparent
         ),
         modifier = modifier.fillMaxWidth()
     )

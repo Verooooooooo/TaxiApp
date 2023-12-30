@@ -1,5 +1,6 @@
 package Conductor.Screens
 
+import Composables.Map
 import Pasajero.Screens.BarraDesafio
 import Pasajero.Screens.BarraRoja
 import Pasajero.Screens.Barrita
@@ -14,11 +15,13 @@ import Pasajero.Screens.backgroundColorEmpezar
 import Settings.Screens.Opciones
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -69,86 +72,111 @@ fun ListaPasajerosContent() {
     val navigator = LocalNavigator.currentOrThrow
 
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
-        Column(
-            Modifier.fillMaxWidth().padding(horizontal = 25.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
+        Column(modifier = Modifier.fillMaxSize()) {
 
-            BarraDesafio()
-
-            Box() {
-
-                Surface(
-                    color = Cuadro,
-                    modifier = Modifier.clip(RoundedCornerShape(16.dp))
-
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
-                    Column(
-                        modifier = Modifier.padding(15.dp),
-                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                    Box(
+                        modifier = Modifier
+                            .clickable { navigator.push(Opciones()) } // Ajusta el espaciado del icono según tus necesidades
                     ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                "Nombre chofer",
-                                color = LetraBlanca, modifier = Modifier.weight(1.0f)
-                            )
-                            Text(
-                                "Precio",
-                                color = LetraBlanca, modifier = Modifier.weight(1.0f)
-                            )
-                        }
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                "Origen: direccion",
-                                color = LetraBlanca, modifier = Modifier.weight(1.0f)
-                            )
-                            Text(
-                                "Kilometros",
-                                color = LetraBlanca, modifier = Modifier.weight(1.0f)
-                            )
 
-                        }
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                "Destino: direccion",
-                                color = LetraBlanca, modifier = Modifier.weight(1.0f)
-                            )
-                            Button(
-                                onClick = {},
-                                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorEmpezar)
-                            ) {
-                                Text("Aceptar")
+                        // Agrega tu icono aquí
+                        Image(
+                            painter = painterResource(AppResources.images.iconHamburguer),
+                            contentDescription = null,
+                            modifier = Modifier.width(16.dp),
+                        )
+
+
+                    }
+                    BarraDesafio()
+                }
+
+
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+
+                Box() {
+
+                    Surface(
+                        color = Cuadro,
+                        modifier = Modifier.clip(RoundedCornerShape(16.dp))
+
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(15.dp),
+                            verticalArrangement = Arrangement.spacedBy(15.dp)
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    "Nombre chofer",
+                                    color = LetraBlanca, modifier = Modifier.weight(1.0f)
+                                )
+                                Text(
+                                    "Precio",
+                                    color = LetraBlanca, modifier = Modifier.weight(1.0f)
+                                )
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    "Origen: direccion",
+                                    color = LetraBlanca, modifier = Modifier.weight(1.0f)
+                                )
+                                Text(
+                                    "Kilometros",
+                                    color = LetraBlanca, modifier = Modifier.weight(1.0f)
+                                )
+
+                            }
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    "Destino: direccion",
+                                    color = LetraBlanca, modifier = Modifier.weight(1.0f)
+                                )
+                                Button(
+                                    onClick = {},
+                                    colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorEmpezar)
+                                ) {
+                                    Text("Aceptar")
+                                }
+
                             }
 
                         }
 
                     }
-
                 }
-            }
-            Image(
-                painter = painterResource(AppResources.images.cargando),
-                modifier = Modifier.fillMaxWidth().weight(0.1f),
-                contentDescription = null
-            )
-            Text("Buscando pasajeros...",
-                color = LetraBlanca, modifier = Modifier.weight(0.5f))
-            Button(
-                onClick = { navigator.push(Opciones()) },
-                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorEmpezar)
-            ) {
-                Text("next")
-            }
+                Image(
+                    painter = painterResource(AppResources.images.cargando),
+                    modifier = Modifier.fillMaxWidth().weight(0.1f),
+                    contentDescription = null
+                )
+                Text(
+                    "Buscando pasajeros...",
+                    color = LetraBlanca, modifier = Modifier.weight(0.5f)
+                )
+                Button(
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorEmpezar)
+                ) {
+                    Text("next")
+                }
 
-        }
+            }
 
 
         }
 
     }
 
-
+}
 
 @Composable
 fun BarraDesafio() {
@@ -186,7 +214,8 @@ fun BarraDesafio() {
         }
 
     }
-
-
 }
+
+
+
 

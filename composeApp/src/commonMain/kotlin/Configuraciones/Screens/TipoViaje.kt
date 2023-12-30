@@ -33,6 +33,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 //import dev.icerock.moko.graphics.Color
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
 
 
 class TipoViaje: Screen {
@@ -72,7 +74,7 @@ fun TipoViajeContent(){
                     )
                     Text(
                         "Provincial",
-                        fontSize = TextUnit(7.0f, TextUnitType.Em),
+                        style = TextStyle(fontSize = 16.sp),
                         color = LetrasBlancas
                     )
                 }
@@ -96,7 +98,7 @@ fun TipoViajeContent(){
                     )
                     Text(
                         "Urbano",
-                        fontSize = TextUnit(7.0f, TextUnitType.Em),
+                        style = TextStyle(fontSize = 16.sp),
                         color = LetrasBlancas
                     )
                 }

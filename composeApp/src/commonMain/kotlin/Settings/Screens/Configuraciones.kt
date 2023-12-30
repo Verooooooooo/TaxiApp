@@ -1,6 +1,7 @@
 package Settings.Screens
 
 import Conductor.Screens.ListaPasajeros
+import Configuraciones.Screens.CerrarSesion
 import Configuraciones.Screens.Idioma
 import Configuraciones.Screens.ModOscuro
 import Configuraciones.Screens.Numero
@@ -28,9 +29,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -58,7 +61,7 @@ fun ConfiguracionesContent(){
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
 
-                Text("Cambiar de número", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Cambiar de número",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
@@ -66,41 +69,41 @@ fun ConfiguracionesContent(){
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
 
-                Text("Modo oscuro", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Modo oscuro",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = { navigator.push(Idioma())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Idioma", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Idioma",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = { navigator.push(Tiempo())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Tiempo de espera máx.", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Tiempo de espera máx.",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = { navigator.push(TipoViaje())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Tipo de viaje", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Tipo de viaje",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
             Button(
                 onClick = { navigator.push(SobreApp())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Acerca de la app", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Acerca de la app",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
             }
             Button(
-                onClick = {},
+                onClick = {navigator.push(CerrarSesion())},
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
             ) {
-                Text("Cerrar sesión", fontSize = TextUnit(7.0f, TextUnitType.Em), color = LetrasBlancas)
+                Text("Cerrar sesión",  style = TextStyle(fontSize = 16.sp), color = LetrasBlancas)
 
             }
 

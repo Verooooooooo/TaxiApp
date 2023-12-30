@@ -1,6 +1,7 @@
 package Pasajero.Screens
 
 import Composables.Map
+import Settings.Screens.LetrasBlancas
 import Settings.Screens.Opciones
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -18,25 +20,26 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import cafe.adriel.voyager.core.screen.Screen
@@ -47,7 +50,6 @@ import dev.icerock.moko.resources.compose.painterResource
 import org.veronica.taxi_app.resources.AppResources
 import org.veronica.taxi_app.resources.AppResources.images.comentario
 import org.veronica.taxi_app.resources.AppResources.images.ubicacion
-import kotlin.math.round
 
 //usar 0xFF para colores
 
@@ -74,29 +76,105 @@ fun BuscarViajeContent() {
 
     var isDialogOpen by remember { mutableStateOf(true) }
 
+    var PrecioSi = remember { mutableStateOf(false) }
+
+    var PrecioNo = remember { mutableStateOf(false) }
+
+    var precioText by remember { mutableStateOf("") }
+
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
-        Column(
-            Modifier.fillMaxWidth().padding(horizontal = 25.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f)) {
+                Map(Modifier.fillMaxWidth())
 
-            BarraDesafio()
-            Map(Modifier.height(400.dp).fillMaxWidth())
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 8.dp)){
+                    Box(
+                        modifier = Modifier
+                            .clickable { navigator.push(Opciones()) } // Ajusta el espaciado del icono según tus necesidades
+                    ) {
 
-            SimpleFilledTextFieldSample("Origen", icon = ubicacion)
-            SimpleFilledTextFieldSample("Destino", icon = ubicacion)
-            SimpleFilledTextFieldSample("Comentarios", icon = comentario)
-            Button(
-                onClick = { navigator.push(ConductorEncontrado()) },
-                colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorBuscar),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Buscar Auto", fontSize = TextUnit(8.5f, TextUnitType.Em))
+                        // Agrega tu icono aquí
+                        Image(
+                            painter = painterResource(AppResources.images.iconHamburguer),
+                            contentDescription = null,
+                            modifier = Modifier.width(16.dp),
+                        )
+
+
+                    }
+                    BarraDesafio()
+                }
+
             }
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
 
 
+                SimpleFilledTextFieldSample("Origen", icon = ubicacion)
+                SimpleFilledTextFieldSample("Destino", icon = ubicacion)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth().height(50.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        SimpleFilledTextFieldSample(
+                            "Precio",
+                            modifier = Modifier.fillMaxWidth().weight(1f),
+                            icon = AppResources.images.precio,
+                            enabled = PrecioSi.value,
+                            value = precioText,
+                            onValueChange = { precioText = it }
+
+
+                        )
+                        Row(
+                            modifier = Modifier.weight(1f),
+                            verticalAlignment = Alignment.CenterVertically
+                        )
+                        {
+                            Checkbox(
+                                checked = PrecioSi.value,
+                                onCheckedChange = {
+                                    PrecioSi.value = it
+                                    PrecioNo.value = !it // Desactiva el otro checkbox
+                                },
+                                modifier = Modifier,
+                                colors = CheckboxDefaults.colors(
+                                    checkedColor = Color.Yellow, // Cambia el color cuando está marcado
+                                    uncheckedColor = Color.Yellow.copy(alpha = 0.5f) // Cambia el color cuando no está marcado
+                                )
+                            )
+                            Text(
+                                "Poner Precio",
+                                style = TextStyle(fontSize = 16.sp),
+                                color = LetrasBlancas
+                            )
+                        }
+                    }
+
+
+                }
+                SimpleFilledTextFieldSample("Comentarios", icon = comentario)
+                Button(
+                    onClick = { navigator.push(ConductorEncontrado()) },
+                    colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorBuscar),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Buscar Auto", style = TextStyle(fontSize = 16.sp))
+                }
+
+
+            }
         }
+
 
         if (isDialogOpen) {
             Dialog(onDismissRequest = { isDialogOpen = false }, properties = DialogProperties()) {
@@ -139,31 +217,40 @@ fun BuscarViajeContent() {
 }
 
 @Composable
-fun SimpleFilledTextFieldSample(texto: String, modifier: Modifier = Modifier, icon: ImageResource) {
+fun SimpleFilledTextFieldSample(
+    texto: String, modifier: Modifier = Modifier, icon: ImageResource, enabled: Boolean = true,
+    value: String = "", onValueChange: (String) -> Unit = {}
+) {
 
 
 //alt + enter = importa automaticamente
-    TextField(
+    OutlinedTextField(
         leadingIcon = {
             Icon(
                 painter = painterResource(icon),
-                modifier = Modifier.height(30.dp),
-                contentDescription = ""
+                modifier = Modifier.height(16.dp),
+                contentDescription = "",
+                tint = Color.White
+
             )
         },
-        value = "",
-        onValueChange = {},
+        enabled = enabled,
+        value = value, // Usar el valor proporcionado
+        onValueChange = onValueChange,
         label = {
             Text(
                 texto,
-                fontSize = TextUnit(7.0f, TextUnitType.Em),
-                color = LetraNegraLabel
+                style = TextStyle(fontSize = 16.sp),
+                color = LetraBlancaAnuncio
             )
         },
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = backgroundColorCuadroTexto,
-            textColor = LetraNegraLabel
-        ), modifier = modifier.fillMaxWidth()
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = LetraBlancaAnuncio,
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Color.White,
+            disabledBorderColor = Color.Transparent
+        ), modifier = modifier.fillMaxWidth(),
+        singleLine = true
     )
 }
 
@@ -176,19 +263,7 @@ fun BarraDesafio() {
     )
     {
 
-        Box(
-            modifier = Modifier.padding(top = 45.dp).clickable { navigator.push(Opciones())} // Ajusta el espaciado del icono según tus necesidades
-        ) {
 
-                // Agrega tu icono aquí
-                Image(
-                    painter = painterResource(AppResources.images.iconHamburguer),
-                    contentDescription = null,
-                    modifier = Modifier.width(16.dp),
-                )
-
-
-        }
         Box(
             Modifier.width(5.dp).height(20.dp).offset(x = 250.dp).background(color = Barrita)
         )

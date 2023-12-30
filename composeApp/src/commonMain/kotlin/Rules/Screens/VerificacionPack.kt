@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 
 class VerificacionPack : Screen {
@@ -43,7 +45,7 @@ fun VerificacionPackContent() {
                             "Tienes derecho a no aceptar un paquete si su contenido parece sospechoso. " +
                             "Si el repartidor sospecha que el contenido del paquete puede ser ilegal o " +
                             "infringir las reglas de nuestro servicio, nos lo hará saber",
-                    fontSize = TextUnit(20.0f, TextUnitType.Sp),
+                    style = TextStyle(fontSize = 16.sp),
                     color = Color.White,
                     textAlign = TextAlign.Justify
                 )

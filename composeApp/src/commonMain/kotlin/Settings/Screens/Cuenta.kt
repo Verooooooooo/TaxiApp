@@ -1,7 +1,9 @@
 package Settings.Screens
 
 import Conductor.Screens.ListaPasajerosContent
+import Pasajero.Screens.ConductorEncontrado
 import Pasajero.Screens.LetraNegraLabel
+import Pasajero.Screens.backgroundColorBuscar
 import Pasajero.Screens.backgroundColorCuadroTexto
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -15,23 +17,35 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 import org.veronica.taxi_app.resources.AppResources
+
+var LetraBlancaAnuncio = Color(0xFFFFFFFF)
 
 class Cuenta : Screen {
     @Composable
@@ -40,26 +54,31 @@ class Cuenta : Screen {
     }
 }
 @Composable
-fun SimpleFilledTextFieldSample3(texto: String, modifier: Modifier = Modifier) {
+fun SimpleFilledTextFieldSample3(texto: String, modifier: Modifier = Modifier,isEnabled: Boolean) {
 //alt + enter = importa automaticamente
-    TextField(
+    OutlinedTextField(
         value = "",
         onValueChange = {},
         label = {
             Text(
                 texto,
-                fontSize = TextUnit(7.0f, TextUnitType.Em),
-                color = LetraNegraLabel
+                style = TextStyle(fontSize = 16.sp),
+                color = LetraBlancaAnuncio
             )
         },
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = backgroundColorCuadroTexto,
-            textColor = LetraNegraLabel
-        ), modifier = modifier.fillMaxWidth()
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = LetraBlancaAnuncio,
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Color.White,
+            disabledBorderColor = Color.Transparent
+        ), modifier = modifier.fillMaxWidth(),
+        enabled = isEnabled
     )
 }
 @Composable
 fun CuentaContent() {
+    val navigator = LocalNavigator.currentOrThrow
+    var isEditingEnabled by remember { mutableStateOf(false) }
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
         Column(
             Modifier.fillMaxWidth().padding(horizontal = 25.dp),
@@ -74,15 +93,16 @@ fun CuentaContent() {
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth().height(100.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
 
 
                 Box(Modifier.weight(1f)) {
                     SimpleFilledTextFieldSample3(
                         "Nombres",
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier,
+                        isEnabled = isEditingEnabled
                     )
                 }
                 Box(
@@ -91,19 +111,21 @@ fun CuentaContent() {
                 {
                     SimpleFilledTextFieldSample3(
                         "Apellidos",
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier,
+                        isEnabled = isEditingEnabled
                     )
                 }
             }
             Row(
-                modifier = Modifier.fillMaxWidth().height(100.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
 
                 Box(Modifier.weight(1f)) {
                     SimpleFilledTextFieldSample3(
                         "DNI/Carnet Ext.",
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier,
+                        isEnabled = isEditingEnabled
                     )
                 }
                 Box(
@@ -113,22 +135,52 @@ fun CuentaContent() {
                 ) {
                     SimpleFilledTextFieldSample3(
                         "Telefono",
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier,
+                        isEnabled = isEditingEnabled
                     )
                 }
             }
             Row(
-                modifier = Modifier.fillMaxWidth().height(100.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
 
                 Box(Modifier.weight(1f)) {
                     SimpleFilledTextFieldSample3(
                         "Edad",
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier,
+                        isEnabled = isEditingEnabled
                     )
                 }
 
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+
+                Box(Modifier.weight(1f)) {
+                    Button(
+                        onClick = {isEditingEnabled = true},
+                        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorBuscar),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Editar Datos", style = TextStyle(fontSize = 16.sp))
+                    }
+                }
+                Box(
+                    Modifier
+                        .weight(0.7f)
+                    //.width(500.dp)
+                ) {
+                    Button(
+                        onClick = {isEditingEnabled = false},
+                        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorBuscar),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Aceptar", style = TextStyle(fontSize = 16.sp))
+                    }
+                }
             }
 
         }

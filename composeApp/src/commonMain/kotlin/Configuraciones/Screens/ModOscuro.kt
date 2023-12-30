@@ -23,9 +23,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -67,7 +69,7 @@ fun ModOscuroContent(){
                     )
                     Text(
                         "Activado",
-                        fontSize = TextUnit(7.0f, TextUnitType.Em),
+                        style = TextStyle(fontSize = 16.sp),
                         color = LetrasBlancas
                     )
                 }
@@ -91,7 +93,7 @@ fun ModOscuroContent(){
                     )
                     Text(
                         "Desactivado",
-                        fontSize = TextUnit(7.0f, TextUnitType.Em),
+                        style = TextStyle(fontSize = 16.sp),
                         color = LetrasBlancas
                     )
                 }

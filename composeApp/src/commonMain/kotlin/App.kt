@@ -11,7 +11,7 @@ var backgroundColor = Color(0xFF3C4142)
 
 @Composable
 fun App() {
-    MaterialTheme(colors = MaterialTheme.colors.copy(surface = backgroundColor)) {
+    MaterialTheme(colors = MaterialTheme.colors.copy(surface = backgroundColor, primary = Color.White)) {
         Navigator(LogoPrincipal())
 
     }
