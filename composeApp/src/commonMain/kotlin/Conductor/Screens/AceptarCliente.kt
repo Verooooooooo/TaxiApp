@@ -1,7 +1,10 @@
-package Pasajero.Screens
+package Conductor.Screens
 
 import Composables.Map
-import Conductor.Screens.ListaPasajeros
+import Pasajero.Screens.BuscarViaje
+import Pasajero.Screens.SimpleFilledTextFieldSample
+import Pasajero.Screens.backgroundColorBuscar
+import Pasajero.Screens.botonCancelar
 import Settings.Screens.Opciones
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -10,7 +13,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,10 +26,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
@@ -35,19 +34,16 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import org.veronica.taxi_app.resources.AppResources
-import org.veronica.taxi_app.resources.AppResources.images.chofer
-import org.veronica.taxi_app.resources.AppResources.images.precio
-import org.veronica.taxi_app.resources.AppResources.images.reloj
-var botonCancelar = Color(0xFFFF0000)
-class ConductorEncontrado : Screen {
+
+class AceptarCliente : Screen {
     @Composable
     override fun Content() {
-        ConductorEncontradoContent()
+        AceptarClienteContent()
     }
 }
 
 @Composable
-fun ConductorEncontradoContent() {
+fun AceptarClienteContent() {
     val navigator = LocalNavigator.currentOrThrow
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -74,73 +70,68 @@ fun ConductorEncontradoContent() {
                 }
 
             }
-        Column(
-            Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-
-
-
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 16.dp) // Ajusta el espaciado a la derecha según sea necesario
-                , verticalAlignment = Alignment.Top
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Box(modifier = Modifier.weight(1.5f))
-                {
-                    Image(
-                        painter = painterResource(AppResources.images.carrito),
-                        modifier = Modifier.height(IntrinsicSize.Min),
-                        contentDescription = null
-                    )
-                }
-                Box(Modifier.weight(1.5f)) {
+
+
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+
+
                     SimpleFilledTextFieldSample(
-                        "Tiempo",
-                        modifier = Modifier.fillMaxWidth(),
-                        icon = reloj,
+                        "Ubicacion pasajero",
+                        modifier = Modifier.fillMaxWidth().weight(1f),
+                        icon = AppResources.images.chofer,
                         enabled = false
                     )
+
+
+                    SimpleFilledTextFieldSample(
+                        "Destino pasajero",
+                        modifier = Modifier.fillMaxWidth().weight(1f),
+                        icon = AppResources.images.precio,
+                        enabled = false
+                    )
+
                 }
-
-            }
-
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-
-                SimpleFilledTextFieldSample(
-                    "Conductor",
-                    modifier = Modifier.fillMaxWidth().weight(1f),
-                    icon = chofer,
-                    enabled = false
-                )
-
-
-                SimpleFilledTextFieldSample(
-                    "Precio",
-                    modifier = Modifier.fillMaxWidth().weight(1f),
-                    icon = precio,
-                    enabled = false
-                )
-
-            }
-
-                Button(
-                    onClick = {navigator.push(BuscarViaje())},
-                    colors = ButtonDefaults.buttonColors(backgroundColor = botonCancelar),
-                    modifier = Modifier.fillMaxWidth()
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text("CANCELAR VIAJE", style = TextStyle(fontSize = 16.sp))
+
+                    Box(Modifier.weight(1f)) {
+                        Button(
+                            onClick = {},
+                            colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorBuscar),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("ACEPTAR VIAJE", style = TextStyle(fontSize = 16.sp))
+                        }
+                    }
+                    Box(
+                        Modifier
+                            .weight(1f)
+                        //.width(500.dp)
+                    ) {
+                        Button(
+                            onClick = {navigator.push(ListaPasajeros())},
+                            colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorBuscar),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("VOLVER", style = TextStyle(fontSize = 16.sp))
+                        }
+                    }
                 }
 
-        }
+
+
+            }
 
 
         }

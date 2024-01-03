@@ -14,7 +14,5 @@ actual fun Map(modifier: Modifier) {
         rememberCameraPositionState {
             position = CameraPosition.fromLatLngZoom(posicionFake, 17.0f)
         }
-    GoogleMap(modifier = modifier, cameraPositionState = camaraPositionState) {
-
-    }
+    GoogleMap(modifier = modifier, cameraPositionState = camaraPositionState)
 }

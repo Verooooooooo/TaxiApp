@@ -4,6 +4,7 @@ import Composables.Map
 import Pasajero.Screens.BarraDesafio
 import Pasajero.Screens.BarraRoja
 import Pasajero.Screens.Barrita
+import Pasajero.Screens.BuscarViaje
 import Pasajero.Screens.BuscarViajeContent
 import Pasajero.Screens.FondoBarra
 import Pasajero.Screens.LetraBlancaAnuncio
@@ -141,10 +142,10 @@ fun ListaPasajerosContent() {
                                     color = LetraBlanca, modifier = Modifier.weight(1.0f)
                                 )
                                 Button(
-                                    onClick = {},
+                                    onClick = {navigator.push(AceptarCliente())},
                                     colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorEmpezar)
                                 ) {
-                                    Text("Aceptar")
+                                    Text("VER")
                                 }
 
                             }

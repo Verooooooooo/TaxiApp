@@ -3,6 +3,7 @@ package Pasajero.Screens
 import Composables.Map
 import Settings.Screens.LetrasBlancas
 import Settings.Screens.Opciones
+import Share.Screens.LocationPicker
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -114,7 +115,11 @@ fun BuscarViajeContent() {
             ) {
 
 
-                SimpleFilledTextFieldSample("Origen", icon = ubicacion)
+                SimpleFilledTextFieldSample("Origen", icon = ubicacion,enabled = false,
+                    onTextClick = {
+                        // Navega a la pantalla deseada al hacer clic en el texto de origen
+                        navigator.push(LocationPicker())
+                    })
                 SimpleFilledTextFieldSample("Destino", icon = ubicacion)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -219,7 +224,8 @@ fun BuscarViajeContent() {
 @Composable
 fun SimpleFilledTextFieldSample(
     texto: String, modifier: Modifier = Modifier, icon: ImageResource, enabled: Boolean = true,
-    value: String = "", onValueChange: (String) -> Unit = {}
+    value: String = "", onValueChange: (String) -> Unit = {},
+    onTextClick: () -> Unit = {}
 ) {
 
 
@@ -249,7 +255,7 @@ fun SimpleFilledTextFieldSample(
             focusedBorderColor = Color.White,
             unfocusedBorderColor = Color.White,
             disabledBorderColor = Color.Transparent
-        ), modifier = modifier.fillMaxWidth(),
+        ), modifier = modifier.fillMaxWidth().clickable { onTextClick.invoke() },
         singleLine = true
     )
 }
