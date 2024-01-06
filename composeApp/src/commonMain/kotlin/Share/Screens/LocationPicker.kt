@@ -27,6 +27,8 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,11 +41,14 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.google.android.gms.maps.model.LatLng
+import dev.icerock.moko.mvvm.compose.getViewModel
+import dev.icerock.moko.mvvm.compose.viewModelFactory
 import dev.icerock.moko.resources.compose.painterResource
 import org.veronica.taxi_app.resources.AppResources
 
 var backgroundBotonConfirmar = Color(0xFFCC9900)
-class LocationPicker: Screen {
+
+class LocationPicker : Screen {
     @Composable
     override fun Content() {
         LocationPickerContent()
@@ -55,6 +60,13 @@ class LocationPicker: Screen {
 fun LocationPickerContent() {
     val navigator = LocalNavigator.currentOrThrow
     val (selectedLocation, setSelectedLocation) = remember { mutableStateOf<LatLng?>(null) }
+    val viewModel = getViewModel(Unit, viewModelFactory {
+        LocationPickerViewModel()
+    })
+
+    val state by viewModel.state.collectAsState()
+
+
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -71,22 +83,24 @@ fun LocationPickerContent() {
                 Box(
                     modifier = Modifier.padding(top = 5.dp)
                 ) {
-                    SimpleFilledTextFieldSample("Origen", icon = AppResources.images.ubicacion,
-                        enabled = true, value = selectedLocation?.toString() ?: "",)
+                    SimpleFilledTextFieldSample(
+                        "Origen", icon = AppResources.images.ubicacion,
+                        enabled = true, value = state.selectedLocationName ?: "",
+                    )
                 }
             }
             Box(modifier = Modifier.weight(1f)) {
 
                 InteractiveMap(
-                    onLocationSelected ={location ->
-                        setSelectedLocation(location)
+                    onLocationSelected = { location ->
+                        viewModel.selectLocation(location)
                         print(location.toString())
                     }
                 )
 
             }
             Button(
-                onClick = {/*navigator.push(BuscarViaje())*/},
+                onClick = {/*navigator.push(BuscarViaje())*/ },
                 colors = ButtonDefaults.buttonColors(backgroundColor = backgroundBotonConfirmar),
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -97,6 +111,7 @@ fun LocationPickerContent() {
     }
 
 }
+
 @Composable
 fun Atras(texto: String) {
     val navigator = LocalNavigator.currentOrThrow

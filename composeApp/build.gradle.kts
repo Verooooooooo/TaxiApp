@@ -7,13 +7,14 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
 
     alias(libs.plugins.mokoResources)
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -37,6 +38,8 @@ kotlin {
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.google.maps.compose)
+
+            implementation(libs.ktor.client.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -48,6 +51,16 @@ kotlin {
 
             api(libs.moko.resources)
             api(libs.moko.resources.compose)
+
+            implementation(libs.moko.mvvm.core)
+            implementation(libs.moko.mvvm.compose)
+
+
+            implementation(libs.coroutines.core)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
     }
 
@@ -84,8 +97,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
