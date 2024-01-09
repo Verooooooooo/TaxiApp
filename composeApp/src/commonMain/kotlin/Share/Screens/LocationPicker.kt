@@ -1,15 +1,9 @@
 package Share.Screens
 
-import Composables.Map
-import Configuraciones.Screens.Regresar
-import Pasajero.Screens.BarraDesafio
 import Pasajero.Screens.BuscarViaje
 import Pasajero.Screens.SimpleFilledTextFieldSample
-import Pasajero.Screens.botonCancelar
 import Platform.InteractiveMap
-import Settings.Screens.Configuraciones
 import Settings.Screens.LetrasBlancas
-import Settings.Screens.Opciones
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,6 +39,7 @@ import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import dev.icerock.moko.resources.compose.painterResource
 import org.veronica.taxi_app.resources.AppResources
+
 
 var backgroundBotonConfirmar = Color(0xFFCC9900)
 
