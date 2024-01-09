@@ -20,15 +20,7 @@ data class LocationPickerState(
     val selectedLocationName: String? = null
 )
 
-class LocationPickerViewModel : ViewModel() {
-    private val httpClient = HttpClient {
-        install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-                useAlternativeNames = false
-            })
-        }
-    }
+class LocationPickerViewModel(private val httpClient: HttpClient) : ViewModel() {
 
     private val _state = MutableStateFlow(LocationPickerState())
     val state = _state.asStateFlow()

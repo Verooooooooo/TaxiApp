@@ -22,7 +22,6 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import dev.icerock.moko.resources.ImageResource
-import org.veronica.taxi_app.R
 import org.veronica.taxi_app.resources.AppResources
 
 @Composable

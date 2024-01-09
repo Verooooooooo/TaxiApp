@@ -38,6 +38,8 @@ import com.google.android.gms.maps.model.LatLng
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 import dev.icerock.moko.resources.compose.painterResource
+import io.ktor.client.HttpClient
+import org.koin.compose.koinInject
 import org.veronica.taxi_app.resources.AppResources
 
 
@@ -53,10 +55,11 @@ class LocationPicker : Screen {
 
 @Composable
 fun LocationPickerContent() {
+    val hc = koinInject<HttpClient>()
     val navigator = LocalNavigator.currentOrThrow
     val (selectedLocation, setSelectedLocation) = remember { mutableStateOf<LatLng?>(null) }
     val viewModel = getViewModel(Unit, viewModelFactory {
-        LocationPickerViewModel()
+        LocationPickerViewModel(httpClient = hc)
     })
 
     val state by viewModel.state.collectAsState()

@@ -40,11 +40,14 @@ kotlin {
             implementation(libs.google.maps.compose)
 
             implementation(libs.ktor.client.android)
+
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
+            implementation(compose.animation)
             implementation(compose.ui)
 
             implementation(libs.voyager.navigator)
@@ -61,6 +64,14 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+
+            api(libs.precompose.core)
+            api(libs.precompose.viewmodel)
+            api(libs.precompose.koin)
+
         }
     }
 
