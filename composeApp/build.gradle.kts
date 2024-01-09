@@ -1,6 +1,3 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
@@ -32,7 +29,7 @@ kotlin {
     */
     sourceSets {
         androidMain.get().dependsOn(commonMain.get())
-        
+
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
@@ -50,7 +47,7 @@ kotlin {
             implementation(compose.animation)
             implementation(compose.ui)
 
-            implementation(libs.voyager.navigator)
+            implementation(libs.material3.core)
 
             api(libs.moko.resources)
             api(libs.moko.resources.compose)
@@ -75,7 +72,7 @@ kotlin {
         }
     }
 
-    multiplatformResources    {
+    multiplatformResources {
         multiplatformResourcesPackage = "org.veronica.taxi_app.resources"
         multiplatformResourcesClassName = "AppResources"
     }

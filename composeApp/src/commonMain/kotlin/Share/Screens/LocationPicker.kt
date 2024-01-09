@@ -1,6 +1,5 @@
 package Share.Screens
 
-import Pasajero.Screens.BuscarViaje
 import Pasajero.Screens.SimpleFilledTextFieldSample
 import Platform.InteractiveMap
 import Settings.Screens.LetrasBlancas
@@ -121,7 +120,9 @@ fun Atras(texto: String) {
 
         Box(
             modifier = Modifier.padding(top = 15.dp)
-                .clickable { navigator.push(BuscarViaje()) } // Ajusta el espaciado del icono según tus necesidades
+                .clickable {
+//                    navigator.push(BuscarViaje())
+                } // Ajusta el espaciado del icono según tus necesidades
         ) {
             Row(
                 modifier = Modifier.height(20.dp),

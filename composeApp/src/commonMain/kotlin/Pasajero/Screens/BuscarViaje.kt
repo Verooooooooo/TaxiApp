@@ -2,9 +2,6 @@ package Pasajero.Screens
 
 import Composables.Map
 import Settings.Screens.LetrasBlancas
-import Settings.Screens.Opciones
-import Share.Screens.DestinyPicker
-import Share.Screens.LocationPicker
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,11 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
+import moe.tlaster.precompose.navigation.Navigator
 import org.veronica.taxi_app.resources.AppResources
 import org.veronica.taxi_app.resources.AppResources.images.comentario
 import org.veronica.taxi_app.resources.AppResources.images.ubicacion
@@ -64,16 +59,10 @@ var Modal = Color(0xFF121212)
 var LetraBlancaAnuncio = Color(0xFFFFFFFF)
 var backgroundColorEmpezar = Color(0xFFCC9900)
 
-class BuscarViaje : Screen {
-    @Composable
-    override fun Content() {
-        BuscarViajeContent()
-    }
-}
-
 @Composable
-fun BuscarViajeContent() {
-    val navigator = LocalNavigator.currentOrThrow
+fun BuscarViaje(
+    parentNavigator: Navigator
+) {
 
     var isDialogOpen by remember { mutableStateOf(true) }
 
@@ -88,11 +77,14 @@ fun BuscarViajeContent() {
             Box(modifier = Modifier.weight(1f)) {
                 Map(Modifier.fillMaxWidth())
 
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 8.dp)){
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                ) {
                     Box(
                         modifier = Modifier
-                            .clickable { navigator.push(Opciones()) } // Ajusta el espaciado del icono según tus necesidades
+//                            .clickable { navigator.push(Opciones()) } // Ajusta el espaciado del icono según tus necesidades
                     ) {
 
                         // Agrega tu icono aquí
@@ -115,10 +107,10 @@ fun BuscarViajeContent() {
             ) {
 
 
-                SimpleFilledTextFieldSample("Origen", icon = ubicacion,enabled = false,
+                SimpleFilledTextFieldSample("Origen", icon = ubicacion, enabled = false,
                     onTextClick = {
                         // Navega a la pantalla deseada al hacer clic en el texto de origen
-                        navigator.push(LocationPicker())
+//                        navigator.push(LocationPicker())
                     })
                 SimpleFilledTextFieldSample("Destino", icon = ubicacion,enabled = false,
                     onTextClick = {
@@ -173,7 +165,9 @@ fun BuscarViajeContent() {
                 }
                 SimpleFilledTextFieldSample("Comentarios", icon = comentario)
                 Button(
-                    onClick = { navigator.push(ConductorEncontrado()) },
+                    onClick = {
+//                        navigator.push(ConductorEncontrado())
+                    },
                     colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorBuscar),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -266,7 +260,6 @@ fun SimpleFilledTextFieldSample(
 
 @Composable
 fun BarraDesafio() {
-    val navigator = LocalNavigator.currentOrThrow
     Box(
         Modifier.padding(vertical = 12.dp).fillMaxWidth(),
         contentAlignment = (Alignment.CenterStart)

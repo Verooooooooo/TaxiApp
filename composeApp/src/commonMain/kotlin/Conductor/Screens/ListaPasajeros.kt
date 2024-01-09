@@ -1,17 +1,9 @@
 package Conductor.Screens
-
-import Composables.Map
+ 
 import Pasajero.Screens.BarraDesafio
 import Pasajero.Screens.BarraRoja
 import Pasajero.Screens.Barrita
-import Pasajero.Screens.BuscarViaje
-import Pasajero.Screens.BuscarViajeContent
 import Pasajero.Screens.FondoBarra
-import Pasajero.Screens.LetraBlancaAnuncio
-import Pasajero.Screens.LetraNegraLabel
-import Pasajero.Screens.Modal
-import Pasajero.Screens.SimpleFilledTextFieldSample
-import Pasajero.Screens.backgroundColorCuadroTexto
 import Pasajero.Screens.backgroundColorEmpezar
 import Settings.Screens.Opciones
 import androidx.compose.foundation.Image
@@ -31,29 +23,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 import org.veronica.taxi_app.resources.AppResources
 
@@ -75,27 +55,27 @@ fun ListaPasajerosContent() {
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
         Column(modifier = Modifier.fillMaxSize()) {
 
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 8.dp)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .clickable { navigator.push(Opciones()) } // Ajusta el espaciado del icono según tus necesidades
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .clickable { navigator.push(Opciones()) } // Ajusta el espaciado del icono según tus necesidades
-                    ) {
 
-                        // Agrega tu icono aquí
-                        Image(
-                            painter = painterResource(AppResources.images.iconHamburguer),
-                            contentDescription = null,
-                            modifier = Modifier.width(16.dp),
-                        )
+                    // Agrega tu icono aquí
+                    Image(
+                        painter = painterResource(AppResources.images.iconHamburguer),
+                        contentDescription = null,
+                        modifier = Modifier.width(16.dp),
+                    )
 
 
-                    }
-                    BarraDesafio()
                 }
+                BarraDesafio()
+            }
 
 
             Column(
@@ -142,7 +122,7 @@ fun ListaPasajerosContent() {
                                     color = LetraBlanca, modifier = Modifier.weight(1.0f)
                                 )
                                 Button(
-                                    onClick = {navigator.push(AceptarCliente())},
+                                    onClick = { navigator.push(AceptarCliente()) },
                                     colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorEmpezar)
                                 ) {
                                     Text("VER")
