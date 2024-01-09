@@ -34,7 +34,7 @@ actual fun InteractiveMap(onLocationSelected: (LatLng) -> Unit) {
             CameraPosition.fromLatLngZoom(LatLng(-8.162938650276201, -79.01217650462648), 17.0f)
     }
 
-    val markerIcon = getMarkerBitmapDescriptor(AppResources.images.carrito)
+    val markerIcon = getMarkerBitmapDescriptor(AppResources.images.carromarker)
 
     Surface(
         modifier = Modifier.fillMaxSize()

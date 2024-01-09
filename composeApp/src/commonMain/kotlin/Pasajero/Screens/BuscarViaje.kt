@@ -3,6 +3,7 @@ package Pasajero.Screens
 import Composables.Map
 import Settings.Screens.LetrasBlancas
 import Settings.Screens.Opciones
+import Share.Screens.DestinyPicker
 import Share.Screens.LocationPicker
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,7 +28,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -120,7 +120,11 @@ fun BuscarViajeContent() {
                         // Navega a la pantalla deseada al hacer clic en el texto de origen
                         navigator.push(LocationPicker())
                     })
-                SimpleFilledTextFieldSample("Destino", icon = ubicacion)
+                SimpleFilledTextFieldSample("Destino", icon = ubicacion,enabled = false,
+                    onTextClick = {
+                        // Navega a la pantalla deseada al hacer clic en el texto de origen
+                        navigator.push(DestinyPicker())
+                    })
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
