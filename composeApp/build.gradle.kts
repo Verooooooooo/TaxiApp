@@ -55,7 +55,6 @@ kotlin {
             implementation(libs.moko.mvvm.core)
             implementation(libs.moko.mvvm.compose)
 
-
             implementation(libs.coroutines.core)
 
             implementation(libs.ktor.client.core)
@@ -65,10 +64,8 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
 
-            api(libs.precompose.core)
-            api(libs.precompose.viewmodel)
-            api(libs.precompose.koin)
-
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.transitions)
         }
     }
 
