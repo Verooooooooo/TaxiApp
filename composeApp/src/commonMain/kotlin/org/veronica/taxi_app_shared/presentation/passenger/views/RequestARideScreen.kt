@@ -16,6 +16,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,9 +34,11 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.icerock.moko.resources.compose.painterResource
 import org.veronica.taxi_app.resources.AppResources
+import org.veronica.taxi_app_shared.core.di.VMFactories
 import org.veronica.taxi_app_shared.platform.composables.Map
 import org.veronica.taxi_app_shared.presentation.shared.composables.BarraDesafio
 import org.veronica.taxi_app_shared.presentation.shared.composables.SimpleFilledTextFieldSample
+import org.veronica.taxi_app_shared.presentation.shared.views.LocationPicker
 
 class RequestARideScreen : Screen {
     @Composable
@@ -47,6 +50,8 @@ class RequestARideScreen : Screen {
 @Composable
 fun RequestARideScreenContent() {
     val navigator = LocalNavigator.currentOrThrow
+    val viewModel = VMFactories.requestARideViewModel("request-a-ride-screen")
+    val uiState by viewModel.uiState.collectAsState()
 
     var isDialogOpen by remember { mutableStateOf(true) }
 
@@ -89,21 +94,29 @@ fun RequestARideScreenContent() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-
-
                 SimpleFilledTextFieldSample("Origen",
                     icon = AppResources.images.ubicacion,
                     enabled = false,
+                    value = uiState.origin?.address ?: "",
                     onTextClick = {
                         // Navega a la pantalla deseada al hacer clic en el texto de origen
-//                        navigator.push(LocationPicker())
+                        navigator.push(
+                            LocationPicker(locationLabel = "Origen", onLocationSelected = {
+                                viewModel.setOrigin(it)
+                            })
+                        )
                     })
                 SimpleFilledTextFieldSample("Destino",
                     icon = AppResources.images.ubicacion,
                     enabled = false,
+                    value = uiState.destination?.address ?: "",
                     onTextClick = {
                         // Navega a la pantalla deseada al hacer clic en el texto de origen
-//                        navigator.push(DestinyPicker())
+                        navigator.push(
+                            LocationPicker(locationLabel = "Destino", onLocationSelected = {
+                                viewModel.setDestination(it)
+                            })
+                        )
                     })
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -119,8 +132,10 @@ fun RequestARideScreenContent() {
                             modifier = Modifier.fillMaxWidth().weight(1f),
                             icon = AppResources.images.precio,
                             enabled = PrecioSi.value,
-                            value = precioText,
-                            onValueChange = { precioText = it }
+                            value = uiState.price?.toString() ?: precioText,
+                            onValueChange = {
+                                viewModel.setPrice(it.toDoubleOrNull() ?: 0.0)
+                            }
 
 
                         )
@@ -144,7 +159,12 @@ fun RequestARideScreenContent() {
 
 
                 }
-                SimpleFilledTextFieldSample("Comentarios", icon = AppResources.images.comentario)
+                SimpleFilledTextFieldSample("Comentarios",
+                    icon = AppResources.images.comentario,
+                    value = uiState.comment ?: "",
+                    onValueChange = {
+                        viewModel.setComment(it)
+                    })
                 Button(
                     onClick = {
                         navigator.push(RideFound())

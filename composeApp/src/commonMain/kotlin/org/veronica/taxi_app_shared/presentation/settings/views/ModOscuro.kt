@@ -30,8 +30,8 @@ class ModOscuro : Screen {
 
 @Composable
 fun ModOscuroContent() {
-    var isActivadoChecked = remember { mutableStateOf(false) }
-    var isDesactivadoChecked = remember { mutableStateOf(false) }
+    val isActivadoChecked = remember { mutableStateOf(false) }
+    val isDesactivadoChecked = remember { mutableStateOf(false) }
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
         Column(
             Modifier.fillMaxWidth().padding(horizontal = 25.dp),

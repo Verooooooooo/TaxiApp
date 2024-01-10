@@ -22,7 +22,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,34 +29,36 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.google.android.gms.maps.model.LatLng
+import dev.icerock.moko.mvvm.compose.ViewModelFactory
 import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import dev.icerock.moko.resources.compose.painterResource
-import io.ktor.client.HttpClient
 import org.koin.compose.koinInject
 import org.veronica.taxi_app.resources.AppResources
+import org.veronica.taxi_app_shared.core.di.VMFactories
+import org.veronica.taxi_app_shared.domain.models.FullAddress
 import org.veronica.taxi_app_shared.platform.composables.InteractiveMap
 import org.veronica.taxi_app_shared.presentation.shared.composables.SimpleFilledTextFieldSample
 
-
-var backgroundBotonConfirmar = Color(0xFFCC9900)
-
-class LocationPicker : Screen {
+class LocationPicker(
+    private val locationLabel: String,
+    private val onLocationSelected: (FullAddress) -> Unit
+) : Screen {
     @Composable
     override fun Content() {
-        LocationPickerContent()
+        LocationPickerContent(locationLabel, onLocationSelected)
     }
 }
 
 
 @Composable
-fun LocationPickerContent() {
-    val hc = koinInject<HttpClient>()
+fun LocationPickerContent(
+    locationLabel: String,
+    onLocationSelected: (FullAddress) -> Unit
+) {
     val navigator = LocalNavigator.currentOrThrow
     val (selectedLocation, setSelectedLocation) = remember { mutableStateOf<LatLng?>(null) }
-    val viewModel = getViewModel(Unit, viewModelFactory {
-        LocationPickerViewModel(httpClient = hc)
-    })
+    
+    val viewModel = VMFactories.locationPickerViewModel("location-picker-screen")
 
     val state by viewModel.state.collectAsState()
 
@@ -66,7 +67,6 @@ fun LocationPickerContent() {
 
         Column(modifier = Modifier.fillMaxSize()) {
             Box(modifier = Modifier) {
-
                 Atras("Location Picker")
             }
             Box(
@@ -79,7 +79,7 @@ fun LocationPickerContent() {
                     modifier = Modifier.padding(top = 5.dp)
                 ) {
                     SimpleFilledTextFieldSample(
-                        "Origen", icon = AppResources.images.ubicacion,
+                        locationLabel, icon = AppResources.images.ubicacion,
                         enabled = true, value = state.selectedLocationName ?: "",
                     )
                 }
@@ -96,7 +96,14 @@ fun LocationPickerContent() {
             }
             Button(
                 onClick = {
-//                    navigator.push(BuscarViaje())
+                    if (state.selectedLocation != null)
+                        onLocationSelected(
+                            FullAddress(
+                                location = state.selectedLocation!!,
+                                address = state.selectedLocationName ?: ""
+                            )
+                        )
+                    navigator.pop()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -120,7 +127,7 @@ fun Atras(texto: String) {
         Box(
             modifier = Modifier.padding(top = 15.dp)
                 .clickable {
-//                    navigator.push(BuscarViaje())
+                    navigator.pop()
                 } // Ajusta el espaciado del icono según tus necesidades
         ) {
             Row(
@@ -134,10 +141,7 @@ fun Atras(texto: String) {
                     contentDescription = null,
                     modifier = Modifier.width(20.dp)
                 )
-
                 Text(texto)
-
-
             }
 
         }
