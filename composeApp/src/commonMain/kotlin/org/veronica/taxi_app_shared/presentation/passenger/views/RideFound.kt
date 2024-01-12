@@ -136,7 +136,7 @@ fun RideFoundContent() {
 
                 Button(
                     onClick = {
-                        navigator.pop()
+                        navigator.push(RequestARideScreen())
                     },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(

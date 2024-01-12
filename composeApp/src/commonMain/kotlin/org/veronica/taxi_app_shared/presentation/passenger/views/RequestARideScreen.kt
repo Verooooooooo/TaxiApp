@@ -1,6 +1,7 @@
 package org.veronica.taxi_app_shared.presentation.passenger.views
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import dev.icerock.moko.resources.compose.painterResource
 import org.veronica.taxi_app.resources.AppResources
 import org.veronica.taxi_app_shared.core.di.VMFactories
 import org.veronica.taxi_app_shared.platform.composables.Map
+import org.veronica.taxi_app_shared.presentation.settings.views.Opciones
 import org.veronica.taxi_app_shared.presentation.shared.composables.BarraDesafio
 import org.veronica.taxi_app_shared.presentation.shared.composables.SimpleFilledTextFieldSample
 import org.veronica.taxi_app_shared.presentation.shared.views.LocationPicker
@@ -73,7 +75,7 @@ fun RequestARideScreenContent() {
                 ) {
                     Box(
                         modifier = Modifier
-//                            .clickable { navigator.push(Opciones()) } // Ajusta el espaciado del icono según tus necesidades
+                            .clickable { navigator.push(Opciones()) } // Ajusta el espaciado del icono según tus necesidades
                     ) {
 
                         // Agrega tu icono aquí

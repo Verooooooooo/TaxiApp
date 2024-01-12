@@ -25,6 +25,7 @@ import org.veronica.taxi_app.resources.AppResources
 import org.veronica.taxi_app.resources.AppResources.images.configuraciones
 import org.veronica.taxi_app.resources.AppResources.images.usuario
 import org.veronica.taxi_app_shared.presentation.driver.views.ListaPasajeros
+import org.veronica.taxi_app_shared.presentation.passenger.views.RequestARideScreen
 
 
 class Opciones : Screen {
@@ -78,7 +79,7 @@ fun OpcionesContent() {
             }
             Button(
                 onClick = {
-//                    navigator.push(BuscarViaje())
+                    navigator.push(RequestARideScreen())
                 },
             ) {
                 Text("Modo pasajero", style = TextStyle(fontSize = 16.sp))
