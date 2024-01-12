@@ -7,6 +7,7 @@ import io.ktor.client.request.get
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.veronica.taxi_app_shared.domain.repos.MapsRepo
+import org.veronica.taxiapp.buildconfig.AppConfig
 
 class GoogleMapsRepo(
     private val httpClient: HttpClient
@@ -15,7 +16,7 @@ class GoogleMapsRepo(
 
     override suspend fun reverseGeocode(location: LatLng): String? {
         val response: GeocodingResponse = httpClient.get(
-            "$geocodeUrl?latlng=${location.latitude},${location.longitude}&key=AIzaSyA8jZgoUqTBequOj25an-SleWmdiMWoIa8"
+            "$geocodeUrl?latlng=${location.latitude},${location.longitude}&key=${AppConfig.MAPS_API_KEY}"
         ).body()
 
         return response.results.firstOrNull()?.formattedAddress

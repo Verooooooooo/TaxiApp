@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
 
     alias(libs.plugins.mokoResources) apply false
+    alias(libs.plugins.sqlDelight) apply false
+    alias(libs.plugins.buildKonfig) apply false
 }
 buildscript {
     dependencies {

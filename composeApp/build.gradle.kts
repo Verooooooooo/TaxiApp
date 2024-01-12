@@ -1,3 +1,6 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import org.jetbrains.compose.internal.utils.getLocalProperty
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
@@ -5,6 +8,33 @@ plugins {
 
     alias(libs.plugins.mokoResources)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.sqlDelight)
+    alias(libs.plugins.buildKonfig)
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("org.veronica.taxiapp.db")
+        }
+    }
+}
+
+val mapsApiKey = project.getLocalProperty("MAPS_API_KEY") ?: ""
+
+buildkonfig {
+    packageName = "org.veronica.taxiapp.buildconfig"
+    objectName = "AppConfig"
+
+    defaultConfigs {
+
+
+        buildConfigField(
+            STRING,
+            "MAPS_API_KEY",
+            mapsApiKey
+        )
+    }
 }
 
 kotlin {
@@ -39,6 +69,8 @@ kotlin {
             implementation(libs.ktor.client.android)
 
             implementation(libs.koin.android)
+
+            implementation(libs.sqldelight.android.driver)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -89,6 +121,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        manifestPlaceholders["mapsApiKey"] = mapsApiKey
     }
     packaging {
         resources {

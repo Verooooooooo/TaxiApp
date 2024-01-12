@@ -1,4 +1,4 @@
-package org.veronica.taxi_app_shared.presentation.shared.views
+package org.veronica.taxi_app_shared.presentation.shared.viewmodels
 
 import com.google.android.gms.maps.model.LatLng
 import dev.icerock.moko.mvvm.viewmodel.ViewModel

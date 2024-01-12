@@ -1,0 +1,23 @@
+import kotlin.Boolean;
+import kotlin.Float;
+
+CREATE TABLE IF NOT EXISTS 'rideIntentTable' (
+    'id' TEXT NOT NULL PRIMARY KEY,
+    'originAddress' TEXT,
+    'originLatitude' REAL ,
+    'originLongitude' REAL ,
+    'destinationAddress' TEXT,
+    'destinationLatitude' REAL ,
+    'destinationLongitude' REAL ,
+    'price' REAL  NOT NULL DEFAULT 0.0,
+    'useSuggestedPrice' INTEGER AS Boolean NOT NULL DEFAULT 1,
+    'suggestedPrice' REAL  NOT NULL DEFAULT 0.0,
+    'comment' TEXT NOT NULL DEFAULT ''
+);
+
+
+getRideIntentFor:
+SELECT * FROM 'rideIntentTable' WHERE id = :userId;
+
+save:
+INSERT OR REPLACE INTO 'rideIntentTable' (id, originAddress, originLatitude, originLongitude, destinationAddress, destinationLatitude, destinationLongitude, price, useSuggestedPrice, suggestedPrice, comment) VALUES (:id, :originAddress, :originLatitude, :originLongitude, :destinationAddress, :destinationLatitude, :destinationLongitude, :price, :useSuggestedPrice, :suggestedPrice, :comment);

@@ -40,7 +40,6 @@ import org.veronica.taxi_app_shared.platform.composables.Map
 import org.veronica.taxi_app_shared.presentation.settings.views.Opciones
 import org.veronica.taxi_app_shared.presentation.shared.composables.BarraDesafio
 import org.veronica.taxi_app_shared.presentation.shared.composables.SimpleFilledTextFieldSample
-import org.veronica.taxi_app_shared.presentation.shared.views.LocationPicker
 
 class RequestARideScreen : Screen {
     @Composable
@@ -56,12 +55,6 @@ fun RequestARideScreenContent() {
     val uiState by viewModel.uiState.collectAsState()
 
     var isDialogOpen by remember { mutableStateOf(true) }
-
-    var PrecioSi = remember { mutableStateOf(false) }
-
-    var PrecioNo = remember { mutableStateOf(false) }
-
-    var precioText by remember { mutableStateOf("") }
 
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -96,30 +89,28 @@ fun RequestARideScreenContent() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                SimpleFilledTextFieldSample("Origen",
+                SimpleFilledTextFieldSample(
+                    "Origen",
                     icon = AppResources.images.ubicacion,
                     enabled = false,
-                    value = uiState.origin?.address ?: "",
-                    onTextClick = {
-                        // Navega a la pantalla deseada al hacer clic en el texto de origen
-                        navigator.push(
-                            LocationPicker(locationLabel = "Origen", onLocationSelected = {
-                                viewModel.setOrigin(it)
-                            })
-                        )
-                    })
-                SimpleFilledTextFieldSample("Destino",
+                    value = uiState.origin?.address ?: ""
+                ) {
+                    // Navega a la pantalla deseada al hacer clic en el texto de origen
+                    navigator.push(
+                        OriginPickerScreen()
+                    )
+                }
+                SimpleFilledTextFieldSample(
+                    "Destino",
                     icon = AppResources.images.ubicacion,
                     enabled = false,
-                    value = uiState.destination?.address ?: "",
-                    onTextClick = {
-                        // Navega a la pantalla deseada al hacer clic en el texto de origen
-                        navigator.push(
-                            LocationPicker(locationLabel = "Destino", onLocationSelected = {
-                                viewModel.setDestination(it)
-                            })
-                        )
-                    })
+                    value = uiState.destination?.address ?: ""
+                ) {
+                    // Navega a la pantalla deseada al hacer clic en el texto de origen
+                    navigator.push(
+                        DestinationPickerScreen()
+                    )
+                }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -133,8 +124,8 @@ fun RequestARideScreenContent() {
                         SimpleFilledTextFieldSample("Precio",
                             modifier = Modifier.fillMaxWidth().weight(1f),
                             icon = AppResources.images.precio,
-                            enabled = PrecioSi.value,
-                            value = uiState.price?.toString() ?: precioText,
+                            enabled = !uiState.useSuggestedPrice,
+                            value = if (uiState.useSuggestedPrice) uiState.suggestedPrice.toString() else uiState.price.toString(),
                             onValueChange = {
                                 viewModel.setPrice(it.toDoubleOrNull() ?: 0.0)
                             }
@@ -146,10 +137,9 @@ fun RequestARideScreenContent() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Checkbox(
-                                checked = PrecioSi.value,
+                                checked = !uiState.useSuggestedPrice,
                                 onCheckedChange = {
-                                    PrecioSi.value = it
-                                    PrecioNo.value = !it // Desactiva el otro checkbox
+                                    viewModel.setUseSuggestedPrice(!it)
                                 },
                             )
                             Text(
