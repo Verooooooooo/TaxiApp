@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.google.android.gms.maps.model.LatLng
 import dev.icerock.moko.resources.compose.painterResource
 import org.veronica.taxi_app.resources.AppResources
 import org.veronica.taxi_app.resources.AppResources.images.chofer
@@ -53,7 +54,10 @@ fun RideFoundContent() {
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
         Column(modifier = Modifier.fillMaxSize()) {
             Box(modifier = Modifier.weight(1f)) {
-                Map(Modifier.fillMaxWidth())
+                Map(
+                    Modifier.fillMaxWidth(),
+                    userLocation = LatLng(-8.162938650276201, -79.01217650462648)
+                )
 
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),

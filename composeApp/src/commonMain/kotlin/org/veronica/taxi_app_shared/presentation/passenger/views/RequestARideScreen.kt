@@ -59,7 +59,7 @@ fun RequestARideScreenContent() {
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
         Column(modifier = Modifier.fillMaxSize()) {
             Box(modifier = Modifier.weight(1f)) {
-                Map(Modifier.fillMaxWidth())
+                Map(Modifier.fillMaxWidth(), userLocation = uiState.userLocation)
 
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
