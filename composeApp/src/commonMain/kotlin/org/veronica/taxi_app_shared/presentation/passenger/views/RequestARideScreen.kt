@@ -159,7 +159,7 @@ fun RequestARideScreenContent() {
                     })
                 Button(
                     onClick = {
-                        navigator.push(RideFound())
+                        navigator.push(WaitingDriver())
                     },
 
                     modifier = Modifier.fillMaxWidth()
