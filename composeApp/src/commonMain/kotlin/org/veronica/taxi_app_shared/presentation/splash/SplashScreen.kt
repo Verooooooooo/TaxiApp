@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.resources.compose.painterResource
 import org.veronica.taxi_app.resources.AppResources
 import org.veronica.taxi_app_shared.core.di.VMFactories
@@ -34,10 +33,6 @@ fun SplashScreenContent() {
     val navigator = LocalNavigator.currentOrThrow
     val viewModel = VMFactories.splashViewModel("splash-screen")
     val uiState = viewModel.uiState.collectAsState()
-
-    viewModel.BindPermissionsWith {
-        BindEffect(it)
-    }
 
     LaunchedEffect(uiState.value.shouldNavigateToNextScreen) {
         if (uiState.value.shouldNavigateToNextScreen) {

@@ -1,6 +1,5 @@
 package org.veronica.taxi_app_shared.presentation.splash
 
-import androidx.compose.runtime.Composable
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
@@ -57,13 +56,24 @@ class SplashViewModel(
                     }
                 }
             }.collect()
+        }
+        askForLocationPermissions()
+    }
 
 
+    private fun askForLocationPermissions() {
+        viewModelScope.launch {
+            try {
+                permissionsController.providePermission(Permission.LOCATION)
+                permissionsController.providePermission(Permission.COARSE_LOCATION)
+
+                _uiState.value = _uiState.value.copy(permissionsGranted = true)
+            } catch (e: Throwable) {
+                println("permissions not granted")
+                println("e: $e")
+                permissionsController.openAppSettings()
+            }
         }
     }
 
-    @Composable
-    fun BindPermissionsWith(bindEffect: @Composable (PermissionsController) -> Unit) {
-        bindEffect(permissionsController)
-    }
 }
