@@ -15,6 +15,7 @@ import org.veronica.taxi_app_shared.data.repos.SqlRideIntentsRepo
 import org.veronica.taxi_app_shared.domain.repos.MapsRepo
 import org.veronica.taxi_app_shared.domain.repos.RideIntentsRepo
 import org.veronica.taxi_app_shared.domain.usecases.GetPriceSuggestionUseCase
+import org.veronica.taxi_app_shared.domain.usecases.GetUserLocationUseCase
 import org.veronica.taxi_app_shared.domain.usecases.GetUserRideIntentUseCase
 import org.veronica.taxi_app_shared.domain.usecases.RequestARideUseCase
 import org.veronica.taxi_app_shared.domain.usecases.ReverseGeocodeLocationUseCase
@@ -27,6 +28,7 @@ import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.Destinatio
 import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.OriginPickerViewModel
 import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.RequestARideViewModel
 import org.veronica.taxi_app_shared.presentation.shared.viewmodels.LocationPickerViewModel
+import org.veronica.taxi_app_shared.presentation.splash.SplashViewModel
 import org.veronica.taxiapp.db.AppDatabase
 
 
@@ -46,6 +48,7 @@ val appModule = module {
         )
     }
 
+
     // UseCases
     single { GetPriceSuggestionUseCase() }
     single { ReverseGeocodeLocationUseCase(get()) }
@@ -54,11 +57,12 @@ val appModule = module {
     single { SaveUserRideIntentUseCase(get()) }
     single { UpdateRideIntentOriginUseCase(get()) }
     single { UpdateRideIntentDestinationUseCase(get()) }
+    single { GetUserLocationUseCase(get()) }
 
 
     // ViewModel factories
     single(named("RequestARideViewModelFactory")) {
-        viewModelFactory { RequestARideViewModel(get(), get()) }
+        viewModelFactory { RequestARideViewModel(get(), get(), get()) }
     }
     single(named("LocationPickerViewModelFactory")) {
         viewModelFactory { LocationPickerViewModel(get()) }
@@ -68,6 +72,9 @@ val appModule = module {
     }
     single(named("DestinationPickerViewModelFactory")) {
         viewModelFactory { DestinationPickerViewModel(get()) }
+    }
+    single(named("SplashViewModelFactory")) {
+        viewModelFactory { SplashViewModel(get()) }
     }
 }
 
@@ -98,6 +105,14 @@ object VMFactories : KoinComponent {
         return getViewModel(
             key = key,
             factory = get(named("DestinationPickerViewModelFactory"))
+        )
+    }
+
+    @Composable
+    fun splashViewModel(key: Any): SplashViewModel {
+        return getViewModel(
+            key = key,
+            factory = get(named("SplashViewModelFactory"))
         )
     }
 }

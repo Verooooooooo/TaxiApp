@@ -9,15 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.resources.compose.painterResource
-import kotlinx.coroutines.delay
 import org.veronica.taxi_app.resources.AppResources
+import org.veronica.taxi_app_shared.core.di.VMFactories
 import org.veronica.taxi_app_shared.presentation.passenger.views.RequestARideScreen
 
 class SplashScreen : Screen {
@@ -30,10 +32,17 @@ class SplashScreen : Screen {
 @Composable
 fun SplashScreenContent() {
     val navigator = LocalNavigator.currentOrThrow
+    val viewModel = VMFactories.splashViewModel("splash-screen")
+    val uiState = viewModel.uiState.collectAsState()
 
-    LaunchedEffect(true) {
-        delay(3000) // Espera 3 segundos antes de navegar a la siguiente pantalla
-        navigator.push(RequestARideScreen())
+    viewModel.BindPermissionsWith {
+        BindEffect(it)
+    }
+
+    LaunchedEffect(uiState.value.shouldNavigateToNextScreen) {
+        if (uiState.value.shouldNavigateToNextScreen) {
+            navigator.push(RequestARideScreen())
+        }
     }
 
     Surface(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {

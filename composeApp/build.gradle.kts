@@ -97,6 +97,10 @@ kotlin {
 
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.transitions)
+
+            api(libs.moko.permissions.compose)
+
+            api(libs.moko.geo.compose)
         }
     }
 

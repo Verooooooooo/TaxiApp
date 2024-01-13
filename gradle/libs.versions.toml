@@ -26,6 +26,8 @@ material3 = "1.1.2"
 voyager = "1.0.0"
 sqldelight = "2.0.1"
 buildkonfig = "0.15.1"
+moko-permissions = "0.17.0"
+moko-geo = "0.6.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -68,6 +70,9 @@ voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", vers
 
 sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 
+moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
+
+moko-geo-compose = { module = "dev.icerock.moko:geo-compose", version.ref = "moko-geo" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
