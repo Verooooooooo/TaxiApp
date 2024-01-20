@@ -40,6 +40,7 @@ actual fun InteractiveMap(onLocationSelected: (LatLng) -> Unit) {
 
     ) {
         GoogleMap(
+
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPosition,
             onMapClick = { latLng ->
@@ -49,6 +50,7 @@ actual fun InteractiveMap(onLocationSelected: (LatLng) -> Unit) {
             }
         ) {
 
+
             if (puntoSeleccionado != null) {
                 Marker(
                     state = MarkerState(puntoSeleccionado!!),
@@ -56,7 +58,9 @@ actual fun InteractiveMap(onLocationSelected: (LatLng) -> Unit) {
                     anchor = Offset(0.5f, 0.5f)
                 )
             }
+
         }
+
     }
 }
 

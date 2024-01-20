@@ -31,7 +31,6 @@ import org.veronica.taxi_app_shared.core.di.VMFactories
 import org.veronica.taxi_app_shared.domain.models.FullAddress
 import org.veronica.taxi_app_shared.platform.composables.InteractiveMap
 
-
 @Composable
 fun LocationPicker(
     locationLabel: String,
@@ -64,12 +63,15 @@ fun LocationPicker(
             }
             Box(modifier = Modifier.weight(1f)) {
 
+
+
                 InteractiveMap(
                     onLocationSelected = { location ->
                         viewModel.selectLocation(location)
                         print(location.toString())
                     }
                 )
+
 
             }
             Button(
@@ -127,3 +129,5 @@ fun Atras(texto: String) {
         }
     }
 }
+
+
