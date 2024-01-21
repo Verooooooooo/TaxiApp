@@ -14,21 +14,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import org.json.JSONObject
 
 data class Route(
     val distanceMeters: Int,
     val duration: String,
-    val polyline: Polyline
+    val polyline: PolylineDef
 )
 
-data class Polyline(
-    val coordinates: List<Pair<Double, Double>>,
+data class PolylineDef(
+    val coordinates: List<LatLng>,
     val type: String
 )
-
-
 
 
 @Composable
@@ -45,19 +44,15 @@ actual fun WaitingMap(route: Route) {
                 .fillMaxSize()
                 .background(Color.Gray),
             cameraPositionState = cameraPosition,
-            onMapClick = { latLng ->
-                selectedLatLng = Pair(latLng.latitude, latLng.longitude)
-            }
-
         ) {
             // Add Polyline to the map
             Polyline(
-                route.polyline.coordinates,
-                type = "route"
+                points = route.polyline.coordinates
             )
         }
     }
 }
+
 @Preview
 @Composable
 fun MapPreview() {
@@ -521,17 +516,17 @@ fun parseJsonToRoute(jsonString: String): Route {
         .getJSONObject("geoJsonLinestring")
         .getJSONArray("coordinates")
 
-    val coordinates = mutableListOf<Pair<Double, Double>>()
+    val coordinates = mutableListOf<LatLng>()
     for (i in 0 until coordinatesArray.length()) {
         val coordinateArray = coordinatesArray.getJSONArray(i)
         val latitude = coordinateArray.getDouble(1)
         val longitude = coordinateArray.getDouble(0)
-        coordinates.add(latitude to longitude)
+        coordinates.add(LatLng(latitude, longitude))
     }
 
     val polylineType = polylineObject.getJSONObject("geoJsonLinestring").getString("type")
 
-    val polyline = Polyline(coordinates, polylineType)
+    val polyline = PolylineDef(coordinates, polylineType)
 
     return Route(distanceMeters, duration, polyline)
 }
