@@ -28,9 +28,10 @@ import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.Destinatio
 import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.OriginPickerViewModel
 import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.RequestARideViewModel
 import org.veronica.taxi_app_shared.presentation.shared.viewmodels.LocationPickerViewModel
-import org.veronica.taxi_app_shared.presentation.splash.SplashViewModel
-import org.veronica.taxiapp.db.AppDatabase
 
+import org.veronica.taxiapp.db.AppDatabase
+import org.veronica.taxi_app_shared.presentation.splash.SplashScreenContent
+import dev.icerock.moko.mvvm.viewmodel.ViewModel
 
 val appModule = module {
     single { initHttpClient() }
@@ -55,8 +56,8 @@ val appModule = module {
     single { RequestARideUseCase() }
     single { GetUserRideIntentUseCase(get()) }
     single { SaveUserRideIntentUseCase(get()) }
-    single { UpdateRideIntentOriginUseCase(get()) }
-    single { UpdateRideIntentDestinationUseCase(get()) }
+    single { UpdateRideIntentOriginUseCase(get(), get()) }
+    single { UpdateRideIntentDestinationUseCase(get(), get()) }
     single { GetUserLocationUseCase(get()) }
 
 
@@ -112,7 +113,7 @@ object VMFactories : KoinComponent {
     fun splashViewModel(key: Any): SplashViewModel {
         return getViewModel(
             key = key,
-            factory = get(named("SplashViewModelFactory"))
+            factory = get(named("SplashViewModelFactory")), get()
         )
     }
 }

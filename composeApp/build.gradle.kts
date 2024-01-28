@@ -71,6 +71,7 @@ kotlin {
             implementation(libs.koin.android)
 
             implementation(libs.sqldelight.android.driver)
+
         }
         commonMain.dependencies {
 
@@ -98,6 +99,7 @@ kotlin {
 
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.transitions)
+
 
 
 

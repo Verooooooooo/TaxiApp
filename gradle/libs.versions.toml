@@ -1,4 +1,5 @@
 [versions]
+accompanistLivedata = "0.20.0"
 agp = "8.2.1"
 android-compileSdk = "34"
 android-minSdk = "24"
@@ -13,6 +14,7 @@ compose = "1.5.4"
 compose-compiler = "1.5.6"
 compose-plugin = "1.5.11"
 junit = "4.13.2"
+khttp = "1.0.0"
 kotlin = "1.9.21"
 
 moko-resources = "0.23.0"
@@ -30,6 +32,8 @@ moko-permissions = "0.17.0"
 moko-geo = "0.6.0"
 
 [libraries]
+accompanist-livedata = { module = "com.google.accompanist:accompanist-livedata", version.ref = "accompanistLivedata" }
+khttp = { module = "org.khttp:khttp", version.ref = "khttp" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
