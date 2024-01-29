@@ -10,42 +10,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import org.veronica.taxi_app.resources.AppResources
-import org.veronica.taxi_app_shared.domain.models.FullAddress
-import org.veronica.taxi_app_shared.domain.usecases.UpdateRideIntentDestinationUseCase
-import org.veronica.taxi_app_shared.domain.usecases.UpdateRideIntentOriginUseCase
 import org.veronica.taxi_app_shared.platform.composables.WaitingMap
 import org.veronica.taxi_app_shared.presentation.shared.composables.Atras
 import org.veronica.taxi_app_shared.presentation.shared.composables.SimpleFilledTextFieldSample
 
 
-class WaitingDriver(
-    private val updateRideIntentOriginUseCase: UpdateRideIntentOriginUseCase,
-    private val updateRideIntentDestinationUseCase: UpdateRideIntentDestinationUseCase
-) : Screen {
+class WaitingDriver : Screen {
     @Composable
     override fun Content() {
-        val originAddress = remember { mutableStateOf<FullAddress?>(null) }
-        val destinationAddress = remember { mutableStateOf<FullAddress?>(null) }
-
-        LaunchedEffect(Unit) {
-            originAddress.value = updateRideIntentOriginUseCase.selectedOriginCoordinates
-            destinationAddress.value = updateRideIntentDestinationUseCase.selectedDestinationCoordinates
-        }
-        WaitingDriverContent(
-            originAddress = originAddress.value,
-            destinationAddress = destinationAddress.value
-        )
-
+        WaitingDriverContent()
     }
 }
+
 /*
 class WaitingDriver : Screen {
     @Composable
@@ -54,19 +35,24 @@ class WaitingDriver : Screen {
     }
 }*/
 @Composable
-fun WaitingDriverContent(
-    originAddress: FullAddress?,
-    destinationAddress: FullAddress?
-) {
+fun WaitingDriverContent() {
+    // Aca llamar a un viewmodel que tiene que tener las coordenadas de origen y destino
+    // y ademas tiene que ser el encargado de llamar a un usecase que calcule la ruta
+    //  el usecase tendria que hacer uso del ktor client para llamar al endpoint de ruta
+
+    // todas las funciones y logica de Waiting map que no sean composables se deberian
+    // preferiblemente realizar aca o en el nuevo viewmodel
+
     Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
         Column(modifier = Modifier.fillMaxSize()) {
             Box(modifier = Modifier.weight(1f)) {
                 // Contenido anterior omitido para mayor claridad
 
                 // Llamar a WaitingMap y pasar las coordenadas de origen y destino
+                // A waiting map lo mejor solo seria pasarle argumentos de origen, destino y ruta
                 WaitingMap(
-                    originAddress = originAddress.toString(),
-                    destinationAddress = destinationAddress.toString()
+                    originAddress = "",
+                    destinationAddress = ""
                 )
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
