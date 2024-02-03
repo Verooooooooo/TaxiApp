@@ -30,6 +30,7 @@ sqldelight = "2.0.1"
 buildkonfig = "0.15.1"
 moko-permissions = "0.17.0"
 moko-geo = "0.6.0"
+lifecycleViewmodelCompose = "2.7.0"
 
 [libraries]
 accompanist-livedata = { module = "com.google.accompanist:accompanist-livedata", version.ref = "accompanistLivedata" }
@@ -77,6 +78,7 @@ sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", ver
 moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
 
 moko-geo-compose = { module = "dev.icerock.moko:geo-compose", version.ref = "moko-geo" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

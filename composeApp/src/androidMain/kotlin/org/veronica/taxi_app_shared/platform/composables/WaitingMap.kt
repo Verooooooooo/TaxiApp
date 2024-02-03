@@ -28,7 +28,6 @@ import io.ktor.http.URLBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import org.veronica.taxi_app_shared.domain.models.FullAddress
 
 
 data class Route(
@@ -112,6 +111,7 @@ actual fun WaitingMap(
     }
 }
 
+/*
 // Define la función calculateRoute con los parámetros de origen y destino
 suspend fun calculateRoute(origin: FullAddress, destination: FullAddress): Route {
     // Accede a las coordenadas de origen y destino
@@ -120,21 +120,68 @@ suspend fun calculateRoute(origin: FullAddress, destination: FullAddress): Route
 
     // Llama a la función que calcula la ruta con las coordenadas de origen y destino
     return calculateRoute(originLatLng, destinationLatLng)
-}
+}*/
 
 // Esta función calcularía la ruta utilizando las coordenadas de origen y destino
 suspend fun calculateRoute(origin: LatLng, destination: LatLng): Route {
     // Aquí iría la lógica para calcular la ruta utilizando alguna API de mapas
     // Por ejemplo, podrías hacer una solicitud a Google Directions API para obtener la ruta entre las coordenadas de origen y destino
     // Devuelve la ruta calculada (simulada aquí)
-    return Route(
+
+    val apiKey = "AIzaSyA8jZgoUqTBequOj25an-SleWmdiMWoIa8" // Reemplaza "TU_API_KEY" con tu propia clave de API de Google Maps
+
+    val client = HttpClient()
+
+    return try {
+        val url = URLBuilder("https://maps.googleapis.com/maps/api/directions/json").apply {
+            parameters.append("origin", "${origin.latitude},${origin.longitude}")
+            parameters.append("destination", "${destination.latitude},${destination.longitude}")
+            parameters.append("key", apiKey)
+        }
+
+        val response: HttpResponse = withContext(Dispatchers.IO) {
+            client.get(url.toString())
+        }
+
+        if (response.status.value == 200) {
+            val jsonString = response.bodyAsText()
+            val route = parseJsonToRoute(jsonString)
+            route
+        } else {
+            // Simular una ruta en caso de error en la solicitud HTTP
+            Route(
+                distanceMeters = 10000,
+                duration = "30 mins",
+                polyline = PolylineDef(
+                    coordinates = listOf(origin, destination),
+                    type = "LineString"
+                )
+            )
+        }
+    } catch (e: Exception) {
+        // En caso de excepción
+        e.printStackTrace()
+        // Simular una ruta en caso de excepción
+        Route(
+            distanceMeters = 10000,
+            duration = "30 mins",
+            polyline = PolylineDef(
+                coordinates = listOf(origin, destination),
+                type = "LineString"
+            )
+        )
+    } finally {
+        client.close()
+    }
+
+   /* return Route(
         distanceMeters = 10000,
         duration = "30 mins",
         polyline = PolylineDef(
             coordinates = listOf(origin, destination),
             type = "LineString"
         )
-    )
+    )*/
 }
 suspend fun getLatLngFromAddress(address: String): LatLng? {
     val apiKey = "AIzaSyA8jZgoUqTBequOj25an-SleWmdiMWoIa8" // Reemplaza "TU_API_KEY" con tu propia clave de API de Google Maps
@@ -204,3 +251,4 @@ fun parseJsonToRoute(jsonString: String): Route {
 
     return Route(distanceMeters, duration, polyline)
 }
+

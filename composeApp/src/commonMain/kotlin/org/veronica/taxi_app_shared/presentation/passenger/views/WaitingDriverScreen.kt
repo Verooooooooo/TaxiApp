@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import org.veronica.taxi_app.resources.AppResources
 import org.veronica.taxi_app_shared.platform.composables.WaitingMap
+import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.RideViewModel
 import org.veronica.taxi_app_shared.presentation.shared.composables.Atras
 import org.veronica.taxi_app_shared.presentation.shared.composables.SimpleFilledTextFieldSample
 
@@ -27,18 +30,21 @@ class WaitingDriver : Screen {
     }
 }
 
-/*
-class WaitingDriver : Screen {
-    @Composable
-    override fun Content() {
-        WaitingDriverContent()
-    }
-}*/
 @Composable
 fun WaitingDriverContent() {
     // Aca llamar a un viewmodel que tiene que tener las coordenadas de origen y destino
     // y ademas tiene que ser el encargado de llamar a un usecase que calcule la ruta
     //  el usecase tendria que hacer uso del ktor client para llamar al endpoint de ruta
+
+    val rideViewModel = viewModel<RideViewModel>()
+
+    // Llamar a los use cases en el ViewModel
+    LaunchedEffect(Unit) {
+        val originCoordinates = rideViewModel.updateRideIntentOriginUseCase
+        val destinationCoordinates = rideViewModel.updateRideIntentDestinationUseCase
+
+        // Puedes realizar cualquier lógica adicional después de obtener las coordenadas
+    }
 
     // todas las funciones y logica de Waiting map que no sean composables se deberian
     // preferiblemente realizar aca o en el nuevo viewmodel
@@ -80,47 +86,3 @@ fun WaitingDriverContent() {
         }
     }
 }
-/*
-
-@Composable
-fun WaitingDriverContent() {
-    var originCoordinates by remember { mutableStateOf<LatLng?>(null) }
-    var destinationCoordinates by remember { mutableStateOf<LatLng?>(null) }
-
-    val navigator = LocalNavigator.currentOrThrow
-    Surface(Modifier.fillMaxWidth().fillMaxHeight()) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Box(modifier = Modifier.weight(1f)) {
-
-
-
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                    ) {
-                        Atras("Waiting")
-
-                    }
-                }
-
-            }
-            Box(Modifier) {
-                SimpleFilledTextFieldSample(
-                    "Esperando conductor",
-                    modifier = Modifier.fillMaxWidth(),
-                    icon = AppResources.images.reloj,
-                    enabled = false
-                )
-            }
-        }
-
-
-    }
-
-
-}
-*/
