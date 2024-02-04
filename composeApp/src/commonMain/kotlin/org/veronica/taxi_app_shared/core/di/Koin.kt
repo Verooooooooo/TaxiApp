@@ -27,6 +27,7 @@ import org.veronica.taxi_app_shared.platform.di.platformModule
 import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.DestinationPickerViewModel
 import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.OriginPickerViewModel
 import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.RequestARideViewModel
+import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.RideViewModel
 import org.veronica.taxi_app_shared.presentation.shared.viewmodels.LocationPickerViewModel
 import org.veronica.taxi_app_shared.presentation.splash.SplashViewModel
 import org.veronica.taxiapp.db.AppDatabase
@@ -75,6 +76,9 @@ val appModule = module {
     single(named("SplashViewModelFactory")) {
         viewModelFactory { SplashViewModel(get()) }
     }
+    single(named("RideViewModelFactory")) {
+        viewModelFactory { RideViewModel(get(), get()) }
+    }
 }
 
 object VMFactories : KoinComponent {
@@ -112,6 +116,14 @@ object VMFactories : KoinComponent {
         return getViewModel(
             key = key,
             factory = get(named("SplashViewModelFactory"))
+        )
+    }
+
+    @Composable
+    fun rideViewModel(key: Any): RideViewModel {
+        return getViewModel(
+            key = key,
+            factory = get(named("RideViewModelFactory"))
         )
     }
 }

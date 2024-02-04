@@ -14,11 +14,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import org.veronica.taxi_app.resources.AppResources
+import org.veronica.taxi_app_shared.core.di.VMFactories
 import org.veronica.taxi_app_shared.platform.composables.WaitingMap
-import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.RideViewModel
 import org.veronica.taxi_app_shared.presentation.shared.composables.Atras
 import org.veronica.taxi_app_shared.presentation.shared.composables.SimpleFilledTextFieldSample
 
@@ -32,16 +31,16 @@ class WaitingDriver : Screen {
 
 @Composable
 fun WaitingDriverContent() {
+    val viewModel = VMFactories.rideViewModel("waiting-driver-screen")
+
+
     // Aca llamar a un viewmodel que tiene que tener las coordenadas de origen y destino
     // y ademas tiene que ser el encargado de llamar a un usecase que calcule la ruta
     //  el usecase tendria que hacer uso del ktor client para llamar al endpoint de ruta
 
-    val rideViewModel = viewModel<RideViewModel>()
 
     // Llamar a los use cases en el ViewModel
     LaunchedEffect(Unit) {
-        val originCoordinates = rideViewModel.updateRideIntentOriginUseCase
-        val destinationCoordinates = rideViewModel.updateRideIntentDestinationUseCase
 
         // Puedes realizar cualquier lógica adicional después de obtener las coordenadas
     }
