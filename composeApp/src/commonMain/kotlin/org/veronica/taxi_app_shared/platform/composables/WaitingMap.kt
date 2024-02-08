@@ -4,5 +4,6 @@ import androidx.compose.runtime.Composable
 
 @Composable
 expect fun WaitingMap(originAddress: String,
-                      destinationAddress: String
+                      destinationAddress: String,
+                      route : Route?
 )

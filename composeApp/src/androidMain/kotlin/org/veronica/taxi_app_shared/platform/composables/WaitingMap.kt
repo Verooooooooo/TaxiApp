@@ -1,24 +1,18 @@
 package org.veronica.taxi_app_shared.platform.composables
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
-import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -45,12 +39,13 @@ data class PolylineDef(
 @Composable
 actual fun WaitingMap(
     originAddress: String,
-    destinationAddress: String
+    destinationAddress: String,
+    route : Route?
 ) {
     var originLatLng by remember { mutableStateOf<LatLng?>(null) }
     var destinationLatLng by remember { mutableStateOf<LatLng?>(null) }
-    var route by remember { mutableStateOf<Route?>(null) }
-
+    //var route by remember { mutableStateOf<Route?>(null) }
+/*
     // Obtener las coordenadas de la dirección de origen
     LaunchedEffect(originAddress) {
         originLatLng = getLatLngFromAddress(originAddress)
@@ -66,22 +61,22 @@ actual fun WaitingMap(
         if (originLatLng != null && destinationLatLng != null) {
             route = calculateRoute(originLatLng!!, destinationLatLng!!)
         }
-    }
+    }*/
 
     // Mostrar el mapa y la ruta una vez que esté disponible
     Column {
         if (route != null) {
             GoogleMap(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Gray),
+                    .fillMaxSize(),
                 cameraPositionState = rememberCameraPositionState {
                     position = CameraPosition.fromLatLngZoom(
-                        originLatLng ?: destinationLatLng ?: LatLng(0.0, 0.0),  // Posición de la cámara en función de las coordenadas disponibles
+                        originLatLng ?: destinationLatLng ?: LatLng(-8.162938650276201, -79.01217650462648),  // Posición de la cámara en función de las coordenadas disponibles
                         17.0f
                     )
                 }
-            ) {
+            ) /*{
+
                 // Dibujar la ruta en el mapa
                 route?.let {
                     Polyline(points = it.polyline.coordinates)
@@ -103,8 +98,9 @@ actual fun WaitingMap(
                         snippet = "Coordenadas del Destino: ${it.latitude}, ${it.longitude}"
                     )
                 }
-            }
-        } else {
+            }*/
+        }
+            else {
             // Mostrar un indicador de carga mientras se obtiene la ruta
             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
