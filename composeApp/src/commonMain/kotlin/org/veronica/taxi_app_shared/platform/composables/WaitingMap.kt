@@ -1,11 +1,12 @@
 package org.veronica.taxi_app_shared.platform.composables
 
 import androidx.compose.runtime.Composable
-import org.veronica.taxi_app_shared.data.repos.SqlRideIntentsRepo
+import com.google.android.gms.maps.model.LatLng
+import org.veronica.taxi_app_shared.domain.models.GoogleMapRoute
 
 @Composable
 expect fun WaitingMap(
-
-                      rideIntentsRepo: SqlRideIntentsRepo,
-                      userId: String
+    origin: LatLng,
+    destination: LatLng,
+    route: GoogleMapRoute
 )

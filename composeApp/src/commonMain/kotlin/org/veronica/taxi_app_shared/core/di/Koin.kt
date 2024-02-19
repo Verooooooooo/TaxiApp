@@ -1,5 +1,6 @@
 package org.veronica.taxi_app_shared.core.di
 
+import RideViewModel
 import androidx.compose.runtime.Composable
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
@@ -10,14 +11,17 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 import org.veronica.taxi_app_shared.core.http.initHttpClient
+import org.veronica.taxi_app_shared.data.repos.ApiRoutesRepo
 import org.veronica.taxi_app_shared.data.repos.GoogleMapsRepo
 import org.veronica.taxi_app_shared.data.repos.SqlRideIntentsRepo
 import org.veronica.taxi_app_shared.domain.repos.MapsRepo
 import org.veronica.taxi_app_shared.domain.repos.RideIntentsRepo
+import org.veronica.taxi_app_shared.domain.repos.RoutesRepo
 import org.veronica.taxi_app_shared.domain.usecases.GetPriceSuggestionUseCase
 import org.veronica.taxi_app_shared.domain.usecases.GetUserLocationUseCase
 import org.veronica.taxi_app_shared.domain.usecases.GetUserRideIntentUseCase
 import org.veronica.taxi_app_shared.domain.usecases.RequestARideUseCase
+import org.veronica.taxi_app_shared.domain.usecases.RequestARouteUseCase
 import org.veronica.taxi_app_shared.domain.usecases.ReverseGeocodeLocationUseCase
 import org.veronica.taxi_app_shared.domain.usecases.SaveUserRideIntentUseCase
 import org.veronica.taxi_app_shared.domain.usecases.UpdateRideIntentDestinationUseCase
@@ -27,7 +31,6 @@ import org.veronica.taxi_app_shared.platform.di.platformModule
 import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.DestinationPickerViewModel
 import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.OriginPickerViewModel
 import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.RequestARideViewModel
-import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.RideViewModel
 import org.veronica.taxi_app_shared.presentation.shared.viewmodels.LocationPickerViewModel
 import org.veronica.taxi_app_shared.presentation.splash.SplashViewModel
 import org.veronica.taxiapp.db.AppDatabase
@@ -47,6 +50,11 @@ val appModule = module {
             db = get()
         )
     }
+    single<RoutesRepo> {
+        ApiRoutesRepo(
+            httpClient = get()
+        )
+    }
 
 
     // UseCases
@@ -58,6 +66,7 @@ val appModule = module {
     single { UpdateRideIntentOriginUseCase(get()) }
     single { UpdateRideIntentDestinationUseCase(get()) }
     single { GetUserLocationUseCase(get()) }
+    single { RequestARouteUseCase(get()) }
 
 
     // ViewModel factories
