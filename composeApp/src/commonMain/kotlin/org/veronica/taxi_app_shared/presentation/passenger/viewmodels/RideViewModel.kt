@@ -1,107 +1,43 @@
-package org.veronica.taxi_app_shared.presentation.passenger.viewmodels
 
+import androidx.lifecycle.ViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import org.veronica.taxi_app_shared.domain.models.FullAddress
-import org.veronica.taxi_app_shared.domain.usecases.UpdateRideIntentDestinationUseCase
-import org.veronica.taxi_app_shared.domain.usecases.UpdateRideIntentOriginUseCase
-import org.veronica.taxi_app_shared.platform.composables.Route
-import org.veronica.taxi_app_shared.platform.composables.calculateRoute
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
+import io.ktor.client.HttpClient
+import org.veronica.taxi_app_shared.data.repos.GoogleMapsRepo
+import org.veronica.taxi_app_shared.domain.repos.MapsRepo
 
 class RideViewModel(
-    val updateRideIntentOriginUseCase: UpdateRideIntentOriginUseCase,
-    val updateRideIntentDestinationUseCase: UpdateRideIntentDestinationUseCase,
+    private val httpClient: HttpClient,
+    private val mapsRepo: MapsRepo
+) : ViewModel() {
 
-    ) : ViewModel() {
+    private val googleMapsRepo = GoogleMapsRepo(httpClient)
+    // Esta función calcula y dibuja la ruta en el mapa
+    suspend fun drawRoute(origin: LatLng, destination: LatLng, googleMap: GoogleMap) {
+        // Aquí puedes utilizar el repositorio de Google Maps para calcular la ruta entre las coordenadas de origen y destino
+        // Por simplicidad, este ejemplo solo invoca el repositorio de geocodificación inversa para obtener direcciones
+        val originAddress = mapsRepo.reverseGeocode(origin)
+        val destinationAddress = mapsRepo.reverseGeocode(destination)
 
+        // En una implementación real, deberías usar la API Directions de Google Maps para obtener la ruta entre el origen y el destino
+        // Aquí, por simplicidad, solo agregamos una línea recta entre el origen y el destino al mapa
+        val polylineOptions = PolylineOptions().add(origin, destination)
+        googleMap.addPolyline(polylineOptions)
 
-    private val _originLocation: MutableStateFlow<LatLng?> = MutableStateFlow(null)
+        // Puedes usar los marcadores para mostrar el origen y el destino en el mapa
+        googleMap.addMarker(MarkerOptions().position(origin).title("Origen: $originAddress"))
+        googleMap.addMarker(MarkerOptions().position(destination).title("Destino: $destinationAddress"))
 
-    private val _destinationLocation: MutableStateFlow<LatLng?> = MutableStateFlow(null)
-
-    private val _route: MutableStateFlow<Route?> = MutableStateFlow(null)
-    val route = _route.asStateFlow()
-
-    // Método para actualizar la ubicación de origen
-    fun updateOriginLocation(latitude: String, longitude: LatLng) {
-        _destinationLocation.value = longitude // Se asigna el valor de longitud directamente
-        viewModelScope.launch {
-            val origin = FullAddress(latitude, longitude)
-            updateRideIntentOriginUseCase(origin) // Llama al método invoke de UpdateRideIntentDestinationUseCase para pasar las coordenadas de destino
-        }
-        calculateRouteAndUpdate()
-    }
-
-    // Método para actualizar la ubicación de destino
-    fun updateDestinationLocation(latitude: String, longitude: LatLng) {
-        _destinationLocation.value = longitude // Se asigna el valor de longitud directamente
-        viewModelScope.launch {
-            val destination = FullAddress(latitude, longitude)
-            updateRideIntentDestinationUseCase(destination) // Llama al método invoke de UpdateRideIntentDestinationUseCase para pasar las coordenadas de destino
-        }
-        calculateRouteAndUpdate()
-    }
-
-
-    // Método para calcular y actualizar la ruta
-    private fun calculateRouteAndUpdate() {
-        val origin = _originLocation.value
-        val destination = _destinationLocation.value
-        if (origin != null && destination != null) {
-            viewModelScope.launch {
-                val route = calculateRoute(origin, destination) // Suponiendo que tienes una función llamada calculateRoute que calcula la ruta
-                _route.value = route
-            }
-
-        }
+        // Ajusta la cámara del mapa para que muestre toda la ruta
+        val boundsBuilder = LatLngBounds.Builder()
+        boundsBuilder.include(origin)
+        boundsBuilder.include(destination)
+        val bounds = boundsBuilder.build()
+        val padding = 100 // Padding para los bordes del mapa
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding))
     }
 }
-/*
-init {
-        observeDestinationLocation()
-        observeOriginLocation()
-    }
-
-    private fun observeDestinationLocation() {
-        destinationPickerViewModel.destinationLocation.observeForever { destinationLocation ->
-            // Actualiza las coordenadas de destino en RideViewModel
-            _destinationLocation.value = destinationLocation
-            calculateRouteIfBothLocationsSelected()
-        }
-    }
-
-    private fun observeOriginLocation() {
-        originPickerViewModel.originLocation.observeForever { originLocation ->
-            // Actualiza las coordenadas de origen en RideViewModel
-            _originLocation.value = originLocation
-            calculateRouteIfBothLocationsSelected()
-        }
-    }
-
-
-    private val _originLocation: MutableStateFlow<LatLng?> = MutableStateFlow(null)
-    val originLocation: StateFlow<LatLng?> = _originLocation.asStateFlow()
-
-    private val _destinationLocation: MutableStateFlow<LatLng?> = MutableStateFlow(null)
-    val destinationLocation: StateFlow<LatLng?> = _destinationLocation.asStateFlow()
-
-    private val _route: MutableStateFlow<Route?> = MutableStateFlow(null)
-    val route = _route.asStateFlow()
-
-    private fun calculateRouteIfBothLocationsSelected() {
-        val origin = _originLocation.value
-        val destination = _destinationLocation.value
-        if (origin != null && destination != null) {
-            viewModelScope.launch {
-                val route = calculateRoute(
-                    origin,
-                    destination
-                ) // Llama a la función calculateRoute del composable WaitingMap
-                _route.value = route
-            }
-        }
-    }
- */

@@ -1,17 +1,24 @@
 package org.veronica.taxi_app_shared.platform.composables
 
+import android.graphics.Color
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.rememberCameraPositionState
 import io.ktor.client.HttpClient
@@ -22,6 +29,8 @@ import io.ktor.http.URLBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import org.veronica.taxi_app_shared.data.repos.SqlRideIntentsRepo
+import org.veronica.taxi_app_shared.presentation.passenger.viewmodels.RideViewModel
 
 
 data class Route(
@@ -38,87 +47,62 @@ data class PolylineDef(
 
 @Composable
 actual fun WaitingMap(
-    originAddress: String,
-    destinationAddress: String,
-    route : Route?
+    rideIntentsRepo: SqlRideIntentsRepo,
+    userId: String
 ) {
-    var originLatLng by remember { mutableStateOf<LatLng?>(null) }
-    var destinationLatLng by remember { mutableStateOf<LatLng?>(null) }
-    //var route by remember { mutableStateOf<Route?>(null) }
-/*
-    // Obtener las coordenadas de la dirección de origen
-    LaunchedEffect(originAddress) {
-        originLatLng = getLatLngFromAddress(originAddress)
-    }
 
-    // Obtener las coordenadas de la dirección de destino
-    LaunchedEffect(destinationAddress) {
-        destinationLatLng = getLatLngFromAddress(destinationAddress)
-    }
+    // Estado para almacenar la ruta
+    var route by remember { mutableStateOf<Route?>(null) }
 
-    // Calcular la ruta cuando se tengan las coordenadas de origen y destino
-    LaunchedEffect(originLatLng, destinationLatLng) {
-        if (originLatLng != null && destinationLatLng != null) {
-            route = calculateRoute(originLatLng!!, destinationLatLng!!)
+    // Obtener las coordenadas de origen y destino del repositorio
+    val (origin, destination) = remember(userId) { rideIntentsRepo.getOriginAndDestinationCoordinates(userId) }
+
+    // Calcular la ruta cuando se obtengan las coordenadas de origen y destino
+    LaunchedEffect(origin, destination) {
+        if (origin != null && destination != null) {
+            route = calculateRoute(origin, destination)
         }
-    }*/
+    }
 
-    // Mostrar el mapa y la ruta una vez que esté disponible
+    // Mostrar el mapa y la ruta una vez que estén disponibles
     Column {
         if (route != null) {
             GoogleMap(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 cameraPositionState = rememberCameraPositionState {
-                    position = CameraPosition.fromLatLngZoom(
-                        originLatLng ?: destinationLatLng ?: LatLng(-8.162938650276201, -79.01217650462648),  // Posición de la cámara en función de las coordenadas disponibles
-                        17.0f
-                    )
+                    position = CameraPosition.fromLatLngZoom(origin ?: LatLng(0.0, 0.0), 17.0f)
                 }
-            ) /*{
-
-                // Dibujar la ruta en el mapa
+            ) { googleMap ->
                 route?.let {
-                    Polyline(points = it.polyline.coordinates)
+                    drawRoute(googleMap, it)
                 }
-
-                // Mostrar marcadores de origen y destino si las coordenadas están disponibles
-                originLatLng?.let {
-                    Marker(
-                        state = MarkerState(position = it),
-                        title = "Origen",
-                        snippet = "Coordenadas del Origen: ${it.latitude}, ${it.longitude}"
-                    )
-                }
-
-                destinationLatLng?.let {
-                    Marker(
-                        state = MarkerState(position = it),
-                        title = "Destino",
-                        snippet = "Coordenadas del Destino: ${it.latitude}, ${it.longitude}"
-                    )
-                }
-            }*/
-        }
-            else {
+            }
+        } else {
             // Mostrar un indicador de carga mientras se obtiene la ruta
             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
     }
 }
+private fun drawRoute(googleMap: GoogleMap, route: Route) {
+    val polylineOptions = PolylineOptions().apply {
+        addAll(route.polyline.coordinates)
+        color(Color.RED)
+        width(5f)
+    }
+    googleMap.addPolyline(polylineOptions)
 
-/*
-// Define la función calculateRoute con los parámetros de origen y destino
-suspend fun calculateRoute(origin: FullAddress, destination: FullAddress): Route {
-    // Accede a las coordenadas de origen y destino
-    val originLatLng = origin.location
-    val destinationLatLng = destination.location
+    // Añadir marcadores para el origen y el destino
+    googleMap.addMarker(MarkerOptions().position(route.polyline.coordinates.first()).title("Origen"))
+    googleMap.addMarker(MarkerOptions().position(route.polyline.coordinates.last()).title("Destino"))
 
-    // Llama a la función que calcula la ruta con las coordenadas de origen y destino
-    return calculateRoute(originLatLng, destinationLatLng)
-}*/
-
-// Esta función calcularía la ruta utilizando las coordenadas de origen y destino
+    // Ajustar la cámara para mostrar la ruta completa
+    val builder = LatLngBounds.Builder()
+    for (point in route.polyline.coordinates) {
+        builder.include(point)
+    }
+    val bounds = builder.build()
+    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))
+}
 suspend fun calculateRoute(origin: LatLng, destination: LatLng): Route {
     // Aquí iría la lógica para calcular la ruta utilizando alguna API de mapas
     // Por ejemplo, podrías hacer una solicitud a Google Directions API para obtener la ruta entre las coordenadas de origen y destino
@@ -170,54 +154,6 @@ suspend fun calculateRoute(origin: LatLng, destination: LatLng): Route {
         client.close()
     }
 
-   /* return Route(
-        distanceMeters = 10000,
-        duration = "30 mins",
-        polyline = PolylineDef(
-            coordinates = listOf(origin, destination),
-            type = "LineString"
-        )
-    )*/
-}
-suspend fun getLatLngFromAddress(address: String): LatLng? {
-    val apiKey = "AIzaSyA8jZgoUqTBequOj25an-SleWmdiMWoIa8" // Reemplaza "TU_API_KEY" con tu propia clave de API de Google Maps
-
-    val client = HttpClient()
-
-    return try {
-        val url = URLBuilder("https://maps.googleapis.com/maps/api/geocode/json").apply {
-            parameters.append("address", address)
-            parameters.append("key", apiKey)
-        }
-
-        val response: HttpResponse = withContext(Dispatchers.IO) {
-            client.get(url.toString())
-        }
-
-        if (response.status.value == 200) {
-            val json = JSONObject(response.bodyAsText())
-            if (json.getString("status") == "OK") {
-                val results = json.getJSONArray("results")
-                if (results.length() > 0) {
-                    val location = results.getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
-                    val lat = location.getDouble("lat")
-                    val lng = location.getDouble("lng")
-                    LatLng(lat, lng)
-                } else {
-                    null
-                }
-            } else {
-                null
-            }
-        } else {
-            null
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
-    } finally {
-        client.close()
-    }
 }
 
 fun parseJsonToRoute(jsonString: String): Route {

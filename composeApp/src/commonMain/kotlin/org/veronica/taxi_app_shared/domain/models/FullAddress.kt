@@ -4,5 +4,5 @@ import com.google.android.gms.maps.model.LatLng
 
 data class FullAddress(
     val address: String,
-    val location: LatLng
+    val location: LatLng?
 )

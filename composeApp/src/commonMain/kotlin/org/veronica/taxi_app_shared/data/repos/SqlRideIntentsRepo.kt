@@ -59,4 +59,12 @@ class SqlRideIntentsRepo(
             comment = rideIntent.comment
         )
     }
+
+    //nuevo
+    fun getOriginAndDestinationCoordinates(userId: String): Pair<LatLng?, LatLng?> {
+        val rideIntent = getUserRideIntent(userId)
+        return rideIntent?.let {
+            Pair(it.origin?.location, it.destination?.location)
+        } ?: Pair(null, null)
+    }
 }
